@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Epitech.Epicture.Model;
 using Xamarin.Forms;
 
@@ -10,18 +6,32 @@ namespace Epitech.Epicture.Views.CellsView
 {
     public class ImageCellView : ViewCell
     {
+        private Image _image;
+
         public ImageCellView()
         {
-            var image = new Image()
+            _image = new Image
             {
                 Aspect = Aspect.AspectFill,
                 HorizontalOptions = LayoutOptions.Fill,
                 BackgroundColor = Color.Fuchsia
             };
 
-            image.SetBinding(Image.SourceProperty, new Binding(nameof(ImgurGaleryAsset.Link), BindingMode.OneWay));
-            image.SetBinding(VisualElement.HeightProperty, new Binding(nameof(ImgurGaleryAsset.Height), BindingMode.OneWay));
-            View = image;
+            _image.SetBinding(Image.SourceProperty, new Binding(nameof(ImgurGaleryAsset.Link), BindingMode.OneWay));
+            View = _image;
         }
+
+
+
+        //protected override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    var imgurGaleryAsset = BindingContext as ImgurGaleryAsset;
+        //    if (imgurGaleryAsset != null)
+        //        _image.Source = new UriImageSource()
+        //        {
+        //            Uri = new Uri(imgurGaleryAsset.Link)
+        //        };
+        //}
     }
 }

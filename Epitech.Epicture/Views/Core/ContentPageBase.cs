@@ -8,20 +8,20 @@ using Xamarin.Forms;
 
 namespace Epitech.Epicture.Views.Core
 {
-    internal class ContentPageBase<TViewModel> : ContentPage where TViewModel : ViewModelBase
+    internal class ContentPageBase<TViewModel> : ContentPage where TViewModel : ViewModelBase, new()
     {
-        private readonly GalleryViewModel _viewModelBase;
+        private TViewModel _viewModel;
 
-        protected TViewModel ViewModel { get; set; }
+        protected TViewModel ViewModel => _viewModel ?? (_viewModel = new TViewModel());
 
         public ContentPageBase()
         {
-            BindingContext = _viewModelBase = new GalleryViewModel();
+            BindingContext = ViewModel;
         }
 
         protected override void OnAppearing()
         {
-            _viewModelBase.OnDisplay();
+            ViewModel.OnDisplay();
             base.OnAppearing();
         }
     }

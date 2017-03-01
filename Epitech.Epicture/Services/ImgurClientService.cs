@@ -21,11 +21,25 @@ namespace Epitech.Epicture.Services
             DefaultRequestHeaders = {Authorization = AuthenticationHeaderValue.Parse($"Client-ID {ClientId}")}
         });
 
-        public async Task<List<ImgurGaleryAsset>> GetMainGalery()
+        public async Task<List<ImgurGaleryAsset>> GetMainGalery(int page)
         {
             try
             {
-                var response = await Client.GetStringAsync("gallery/hot/viral/0");
+                var response = await Client.GetStringAsync($"gallery/hot/viral/{page}");
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<ImgurApiResponse<ImgurGaleryAsset>>(response).Data;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<List<ImgurGaleryAsset>> SearchMainGalery(string query, int page)
+        {
+            try
+            {
+                var response = await Client.GetStringAsync($"gallery/search/viral/{page}?q={Uri.EscapeDataString(query)}");
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<ImgurApiResponse<ImgurGaleryAsset>>(response).Data;
             }
             catch (Exception e)
