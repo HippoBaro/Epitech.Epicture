@@ -1,5 +1,4 @@
-﻿using System;
-using Epitech.Epicture.Services;
+﻿using Epitech.Epicture.Views;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture
@@ -8,31 +7,11 @@ namespace Epitech.Epicture
 	{
 		public App()
 		{
-            
-            // The root page of your application
-            var content = new ContentPage
-			{
-				Title = "Epitech.Epicture",
-				Content = new StackLayout
-				{
-					VerticalOptions = LayoutOptions.Center,
-					Children = {
-						new Label {
-							HorizontalTextAlignment = TextAlignment.Center,
-							Text = "Welcome to Xamarin Forms!"
-						}
-					}
-				}
-			};
-
-			MainPage = new NavigationPage(content);
+			MainPage = new NavigationPage(new GaleryView());
 		}
 
-		protected override async void OnStart()
+		protected override void OnStart()
 		{
-            var temp = new ImgurClientService();
-
-            var images = await temp.GetMainGalery();
             // Handle when your app starts
         }
 

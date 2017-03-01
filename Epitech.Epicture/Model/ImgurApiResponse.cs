@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Epitech.Epicture.Model
 {
-    public class ImgurApiResponse
+    public class ImgurApiResponse<TInnerType>
     {
         [JsonProperty("data")]
-        public dynamic Data { get; set; }
+        public List<TInnerType> Data { get; set; }
 
         [JsonProperty("success")]
         public bool Success { get; set; }

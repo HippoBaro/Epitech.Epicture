@@ -26,7 +26,7 @@ namespace Epitech.Epicture.Services
             try
             {
                 var response = await Client.GetStringAsync("gallery/hot/viral/0");
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImgurGaleryAsset>>(response);
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<ImgurApiResponse<ImgurGaleryAsset>>(response).Data;
             }
             catch (Exception e)
             {
