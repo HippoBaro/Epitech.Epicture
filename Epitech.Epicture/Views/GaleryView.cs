@@ -77,15 +77,16 @@ namespace Epitech.Epicture.Views
 
         private void ScrollView_Scrolled(object sender, ScrolledEventArgs args)
         {
-            foreach (Image stackChild in _stack.Children.Where(view => view is Image))
+            foreach (RelativeLayout stackChild in _stack.Children.Where(view => view.BindingContext is ImgurGaleryAsset))
             {
-                void LoadAsset() => stackChild.Source = ((ImgurGaleryAsset) stackChild.BindingContext).ContentImageMedium;
+                Image image = stackChild.Children.First(view => view is Image) as Image;
+                void LoadAsset() => image.Source = ((ImgurGaleryAsset) stackChild.BindingContext).ContentImageMedium;
                 if (stackChild.Bounds.IntersectsWith(new Rectangle(args.ScrollX, args.ScrollY, _scrollView.Bounds.Width, _scrollView.Bounds.Height).Inflate(0, Bounds.Height * 0.50)))
                     LoadAsset();
                 else
                 {
-                    stackChild.HeightRequest = stackChild.Bounds.Height;
-                    stackChild.Source = null;
+                    //stackChild.HeightRequest = stackChild.Bounds.Height;
+                    image.Source = null;
                 }
             }
 
@@ -93,34 +94,57 @@ namespace Epitech.Epicture.Views
                 ViewModel.FetchCommand.Execute(++ViewModel.CurrentPage);
         }
 
-        private Image GetImage(ImgurGaleryAsset asset)
+        private RelativeLayout GetImage(ImgurGaleryAsset asset)
         {
             if (string.IsNullOrEmpty(asset.Link) || asset.IsAlbum)
                 return null;
+
             var image = new Image()
             {
                 Aspect = Aspect.AspectFit,
-                BackgroundColor = Color.Fuchsia,
-                BindingContext = asset,
-                HorizontalOptions = LayoutOptions.Center,
-                HeightRequest = Bounds.Width * asset.Ratio,
-                WidthRequest = Bounds.Width
+                BackgroundColor = Color.Accent
             };
 
-            this.MeasureInvalidated += (sender, args) =>
+            var titleFrame = new Frame
             {
-                if (asset.Ratio > 0)
-                    image.HeightRequest = Bounds.Width / asset.Ratio;
-                else
-                    image.HeightRequest = Bounds.Width * asset.Ratio;
-                image.WidthRequest = Bounds.Width;
+                Content = new Label
+                {
+                    Text = asset.Title,
+                    TextColor = Color.White
+                },
+                Margin = new Thickness(0),
+                BackgroundColor = Color.Black.MultiplyAlpha(0.7),
+                VerticalOptions = LayoutOptions.Start
             };
 
-            image.GestureRecognizers.Add(new TapGestureRecognizer(async view =>
+            var heigh = asset.Ratio > 0 ? Bounds.Width / asset.Ratio : Bounds.Width * asset.Ratio;
+            var frame = new RelativeLayout
+            {
+                Margin = new Thickness(0),
+                BindingContext = asset,
+                HeightRequest = heigh,
+                WidthRequest = Bounds.Width,
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                Children =
+                {
+                    { image, Constraint.Constant(0), Constraint.Constant(0), Constraint.FromExpression(() => Bounds.Width), Constraint.FromExpression(() => asset.Ratio > 0 ? Bounds.Width / asset.Ratio : Bounds.Width * asset.Ratio) },
+                    { titleFrame, () => new Rectangle(0, 0, image.Width, image.Height / 0.33) }
+                }
+            };
+
+            image.SizeChanged += (sender, args) =>
+            {
+                var newheigh = asset.Ratio > 0 ? Bounds.Width / asset.Ratio : Bounds.Width * asset.Ratio;
+                frame.HeightRequest = newheigh;
+                frame.WidthRequest = Bounds.Width;
+            };
+
+            frame.GestureRecognizers.Add(new TapGestureRecognizer(async view =>
             {
                 await Navigation.PushAsync(new ImageDetailView((ImgurGaleryAsset)view.BindingContext));
             }));
-            return image;
+            return frame;
         }
     }
 }
