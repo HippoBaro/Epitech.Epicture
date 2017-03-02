@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Epitech.Epicture.Model.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Xamarin.Forms;
 
 namespace Epitech.Epicture.Model
 {
-    public class ImgurGaleryAsset
+    internal class ImgurGaleryAsset : ImgurBaseModel
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
+        private WeakReference<ImageSource> _contentImage;
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -54,5 +55,51 @@ namespace Epitech.Epicture.Model
 
         [JsonProperty("is_album")]
         public bool IsAlbum { get; set; }
+
+        public double Ratio => (double)Width / (double)Height;
+        
+
+        public ImageSource ContentImageMedium
+        {
+            get
+            {
+                ImageSource Create()
+                {
+                    var link = new Uri(IsAnimated ? Link : $"http://i.imgur.com/{Id}l.{Link.Substring(Link.Length - 3, 3)}");
+                    return new UriImageSource()
+                {
+                    Uri = link,
+                    CachingEnabled = true,
+                    CacheValidity = TimeSpan.MaxValue
+                };}
+
+                if (_contentImage == null)
+                    _contentImage = new WeakReference<ImageSource>(Create());
+                if (_contentImage.TryGetTarget(out ImageSource res))
+                    return res;
+                _contentImage.SetTarget(Create());
+                return _contentImage.TryGetTarget(out res) ? res : null;
+            }
+        }
+
+        public ImageSource ContentImageFull
+        {
+            get
+            {
+                ImageSource Create() => new UriImageSource()
+                {
+                    Uri = new Uri(Link),
+                    CachingEnabled = true,
+                    CacheValidity = TimeSpan.MaxValue
+                };
+
+                if (_contentImage == null)
+                    _contentImage = new WeakReference<ImageSource>(Create());
+                if (_contentImage.TryGetTarget(out ImageSource res))
+                    return res;
+                _contentImage.SetTarget(Create());
+                return _contentImage.TryGetTarget(out res) ? res : null;
+            }
+        }
     }
 }

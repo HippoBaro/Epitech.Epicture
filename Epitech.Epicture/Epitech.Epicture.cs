@@ -7,7 +7,13 @@ namespace Epitech.Epicture
 	{
 		public App()
 		{
-			MainPage = new NavigationPage(new GaleryView());
+		    MainPage = new TabbedPage
+		    {
+		        Children =
+		        {
+		            new NavigationPage(new GaleryView()) { Title = "Gallery" }
+		        }
+		    };
 		}
 
 		protected override void OnStart()

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Epitech.Epicture.ViewModels;
+﻿using Epitech.Epicture.ViewModels;
+using Epitech.Epicture.ViewModels.Core;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.Views.Core

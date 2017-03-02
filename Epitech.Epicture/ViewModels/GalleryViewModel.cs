@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Epitech.Epicture.Model;
 using Epitech.Epicture.Services;
+using Epitech.Epicture.ViewModels.Core;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels
@@ -41,7 +37,7 @@ namespace Epitech.Epicture.ViewModels
             }
         }
 
-        public ICommand FetchCommand => new Command<int>(async page => await Fetch(page));
+        public ICommand FetchCommand => new Command(async () => await Fetch());
 
         public int CurrentPage
         {
@@ -61,21 +57,25 @@ namespace Epitech.Epicture.ViewModels
         public override async void OnDisplay()
         {
             base.OnDisplay();
-            await Fetch(CurrentPage);
+            await Fetch();
         }
 
-        private async Task Fetch(int page)
+        private async Task Fetch()
         {
-            if (page == 0)
+            if (IsFetching)
+                return;
+            IsFetching = true;
+            if (CurrentPage == 0)
                 Assets.Clear();
             
-            var assets = string.IsNullOrEmpty(SearchQuery) ? ImgurClientService.GetMainGalery(page) : ImgurClientService.SearchMainGalery(SearchQuery, page);
-
+            var assets = string.IsNullOrEmpty(SearchQuery) ? ImgurClientService.GetMainGalery(CurrentPage) : ImgurClientService.SearchMainGalery(SearchQuery, CurrentPage);
+            
             foreach (var asset in await assets)
             {
                 if (!string.IsNullOrEmpty(asset.Link))
                 Assets.Add(asset);
             }
+            IsFetching = false;
         }
     }
 }
