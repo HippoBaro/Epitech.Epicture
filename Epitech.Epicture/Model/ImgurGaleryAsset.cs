@@ -56,31 +56,23 @@ namespace Epitech.Epicture.Model
         [JsonProperty("is_album")]
         public bool IsAlbum { get; set; }
 
-        public double Ratio => (double)Width / (double)Height;
-        
+        [JsonProperty("mp4")]
+        public string Mp4Source { get; set; }
 
-        public ImageSource ContentImageMedium
+        public double Ratio => (double)Width / (double)Height;
+
+        public bool ShouldDisplay
         {
             get
             {
-                ImageSource Create()
-                {
-                    var link = new Uri(IsAnimated ? Link : $"http://i.imgur.com/{Id}l.{Link.Substring(Link.Length - 3, 3)}");
-                    return new UriImageSource()
-                {
-                    Uri = link,
-                    CachingEnabled = true,
-                    CacheValidity = TimeSpan.MaxValue
-                };}
-
-                if (_contentImage == null)
-                    _contentImage = new WeakReference<ImageSource>(Create());
-                if (_contentImage.TryGetTarget(out ImageSource res))
-                    return res;
-                _contentImage.SetTarget(Create());
-                return _contentImage.TryGetTarget(out res) ? res : null;
+                if (IsAlbum)
+                    return false;
+                return true;
             }
         }
+
+
+        public Uri ContentImageMedium => new Uri(IsAnimated && !string.IsNullOrEmpty(Mp4Source) ? Mp4Source : $"http://i.imgur.com/{Id}l.{Link.Substring(Link.Length - 3, 3)}");
 
         public ImageSource ContentImageFull
         {

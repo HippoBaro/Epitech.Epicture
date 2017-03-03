@@ -42,6 +42,7 @@
     <Compile Include="ViewModels\GalleryViewModel.cs" />
     <Compile Include="ViewModels\ImageDetailViewModel.cs" />
     <Compile Include="Views\CellsView\ImageCellView.cs" />
+    <Compile Include="Views\Controls\RichImage.cs" />
     <Compile Include="Views\Core\ContentPageBase.cs" />
     <Compile Include="Views\GaleryView.cs" />
     <Compile Include="Views\ImageDetailView.cs" />
@@ -81,7 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\Contracts\" />
-    <Folder Include="Views\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

@@ -2,6 +2,7 @@
 using System.Linq;
 using Epitech.Epicture.Model;
 using Epitech.Epicture.ViewModels;
+using Epitech.Epicture.Views.Controls;
 using Epitech.Epicture.Views.Core;
 using Xamarin.Forms;
 
@@ -79,14 +80,14 @@ namespace Epitech.Epicture.Views
         {
             foreach (RelativeLayout stackChild in _stack.Children.Where(view => view.BindingContext is ImgurGaleryAsset))
             {
-                Image image = stackChild.Children.First(view => view is Image) as Image;
-                void LoadAsset() => image.Source = ((ImgurGaleryAsset) stackChild.BindingContext).ContentImageMedium;
+                RichImage image = stackChild.Children.First(view => view is RichImage) as RichImage;
+                void LoadAsset() => image.RichSource = ((ImgurGaleryAsset) stackChild.BindingContext).ContentImageMedium;
                 if (stackChild.Bounds.IntersectsWith(new Rectangle(args.ScrollX, args.ScrollY, _scrollView.Bounds.Width, _scrollView.Bounds.Height).Inflate(0, Bounds.Height * 0.50)))
                     LoadAsset();
                 else
                 {
                     //stackChild.HeightRequest = stackChild.Bounds.Height;
-                    image.Source = null;
+                    image.RichSource = null;
                 }
             }
 
@@ -96,23 +97,26 @@ namespace Epitech.Epicture.Views
 
         private RelativeLayout GetImage(ImgurGaleryAsset asset)
         {
-            if (string.IsNullOrEmpty(asset.Link) || asset.IsAlbum)
+            if (!asset.ShouldDisplay)
                 return null;
 
-            var image = new Image()
+            var image = new RichImage()
             {
                 Aspect = Aspect.AspectFit,
                 BackgroundColor = Color.Accent
             };
 
-            var titleFrame = new Frame
+            var titleFrame = new StackLayout
             {
-                Content = new Label
-                {
-                    Text = asset.Title,
-                    TextColor = Color.White
+                Children = {
+                    new Label
+                    {
+                        Text = asset.Title,
+                        TextColor = Color.White
+                    }
                 },
                 Margin = new Thickness(0),
+                Padding = new Thickness(10),
                 BackgroundColor = Color.Black.MultiplyAlpha(0.7),
                 VerticalOptions = LayoutOptions.Start
             };
@@ -128,7 +132,7 @@ namespace Epitech.Epicture.Views
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 Children =
                 {
-                    { image, Constraint.Constant(0), Constraint.Constant(0), Constraint.FromExpression(() => Bounds.Width), Constraint.FromExpression(() => asset.Ratio > 0 ? Bounds.Width / asset.Ratio : Bounds.Width * asset.Ratio) },
+                    { image, () => new Rectangle(0, 0, Bounds.Width, asset.Ratio > 0 ? Bounds.Width / asset.Ratio : Bounds.Width * asset.Ratio) },
                     { titleFrame, () => new Rectangle(0, 0, image.Width, image.Height / 0.33) }
                 }
             };
