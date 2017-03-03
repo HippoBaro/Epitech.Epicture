@@ -8,10 +8,9 @@ namespace Epitech.Epicture.Views
 {
     internal class ImageDetailView : ContentPageBase<ImageDetailViewModel>
     {
-        public ImageDetailView(ImgurGaleryAsset asset)
+        public ImageDetailView(string assetId)
         {
-            ViewModel.ImgurGaleryAsset = asset;
-
+            ViewModel.AssetId = assetId;
             var star = new Image
             {
                 Aspect = Aspect.AspectFit,
@@ -20,12 +19,14 @@ namespace Epitech.Epicture.Views
                 VerticalOptions = LayoutOptions.Center
             };
 
+            var img = new Image {HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.Fill, Aspect = Aspect.AspectFit};
+
             var list = new ListView
             {
                 Header = new StackLayout
                 {
                     Children = {
-                        new Image { Source = asset.ContentImageFull, HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.Fill, Aspect = Aspect.AspectFit },
+                        img,
                         new StackLayout
                         {
                             HorizontalOptions = LayoutOptions.Fill,
@@ -56,6 +57,11 @@ namespace Epitech.Epicture.Views
 
             list.SetBinding(ListView.ItemsSourceProperty, new Binding(nameof(ViewModel.Comments)));
             star.SetBinding(Image.SourceProperty, new Binding(nameof(ViewModel.IsStared), BindingMode.OneWay, new StartedToAssetValueConverter()));
+
+            ViewModel.PropertyChanged += (sender, args) =>
+            {
+                img.Source = ViewModel.ImgurGaleryAsset.ContentImageFull;
+            };
 
             Content = list;
         }

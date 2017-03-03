@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Epitech.Epicture.Model;
 using Epitech.Epicture.Services.Core;
+using Xamarin.Forms;
 
 namespace Epitech.Epicture.Services
 {
@@ -17,7 +18,9 @@ namespace Epitech.Epicture.Services
 
         public string UserName { get; set; }
 
-        public string GetAuthorisationUrl() => $"https://api.imgur.com/oauth2/authorize?client_id={ClientId}&response_type=pin&state=authorizeXamForms";
+        public Uri GetAuthorisationUrl() => new Uri($"https://api.imgur.com/oauth2/authorize?client_id={ClientId}&response_type=pin&state=authorizeXamForms");
+
+        public string GetAuthenticationHeader() => string.IsNullOrEmpty(IdentityToken) ? $"Client-ID {ClientId}" : $"Bearer {IdentityToken}";
 
         public async Task Authorize(string pin)
         {
@@ -35,6 +38,8 @@ namespace Epitech.Epicture.Services
                 request.Content = new FormUrlEncodedContent(keyValues);
 
                 var response = await Client.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception("Unable to authenticate");
                 var auth = Newtonsoft.Json.JsonConvert.DeserializeObject<ImgurAuthorisation>(await response.Content.ReadAsStringAsync());
                 IdentityToken = auth.AccessToken;
                 UserId = auth.AccountId;

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Epitech.Epicture.Model;
@@ -12,6 +13,7 @@ namespace Epitech.Epicture.ViewModels
     {
         private ImgurGaleryAsset _imgurGaleryAsset;
         private bool _isStared;
+        private string _assetId;
 
         public ImgurGaleryAsset ImgurGaleryAsset
         {
@@ -21,7 +23,21 @@ namespace Epitech.Epicture.ViewModels
                 _imgurGaleryAsset = value;
                 if (_imgurGaleryAsset == null)
                     return;
+                IsStared = _imgurGaleryAsset.Favorite;
                 FetchComments.Execute(null);
+            }
+        }
+
+        public string AssetId
+        {
+            get { return _assetId; }
+            set
+            {
+                _assetId = value;
+                if (string.IsNullOrEmpty(_assetId))
+                    return;
+                ImgurClientService.GetImage(_assetId).ContinueWith(task => Device.BeginInvokeOnMainThread(() => ImgurGaleryAsset = task.Result));
+                OnPropertyChanged();
             }
         }
 
@@ -41,9 +57,26 @@ namespace Epitech.Epicture.ViewModels
             }
         }
 
-        public ICommand StarCommand => new Command(o =>
+        public ICommand StarCommand => new Command(async o =>
         {
+            if (string.IsNullOrEmpty(App.IdentityProvider.IdentityToken))
+            {
+                Device.OpenUri(App.IdentityProvider.GetAuthorisationUrl());
+                var pin = await DisplayInputBox("Authentication", "Fill-in the provided PIN", "Your PIN");
+                if (string.IsNullOrWhiteSpace(pin))
+                    return;
+                try
+                {
+                    await App.IdentityProvider.Authorize(pin);
+                }
+                catch (Exception e)
+                {
+                    await Page.DisplayAlert("Error", e.Message, "Ok");
+                    return;
+                }
+            }
             IsStared = !IsStared;
+            IsStared = await ImgurClientService.FavoriteImage(ImgurGaleryAsset) != "unfavorited";
         });
 
         public ImageDetailViewModel()

@@ -68,9 +68,9 @@ namespace Epitech.Epicture.ViewModels
             if (CurrentPage == 0)
                 Assets.Clear();
             
-            var assets = string.IsNullOrEmpty(SearchQuery) ? ImgurClientService.GetMainGalery(CurrentPage) : ImgurClientService.SearchMainGalery(SearchQuery, CurrentPage);
+            var assets = await (string.IsNullOrEmpty(SearchQuery) ? ImgurClientService.GetMainGalery(CurrentPage) : ImgurClientService.SearchMainGalery(SearchQuery, CurrentPage));
             
-            foreach (var asset in await assets)
+            foreach (var asset in assets)
             {
                 if (!string.IsNullOrEmpty(asset.Link))
                 Assets.Add(asset);

@@ -8,7 +8,7 @@ namespace Epitech.Epicture.Views.Core
     {
         private TViewModel _viewModel;
 
-        protected TViewModel ViewModel => _viewModel ?? (_viewModel = new TViewModel());
+        protected TViewModel ViewModel => _viewModel ?? (_viewModel = new TViewModel { Page = this });
 
         public ContentPageBase()
         {

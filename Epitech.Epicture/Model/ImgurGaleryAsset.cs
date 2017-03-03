@@ -43,6 +43,9 @@ namespace Epitech.Epicture.Model
         [JsonProperty("in_gallery")]
         public bool InGallery { get; set; }
 
+        [JsonProperty("favorite")]
+        public bool Favorite { get; set; }
+
         [JsonProperty("link")]
         public string Link { get; set; }
 

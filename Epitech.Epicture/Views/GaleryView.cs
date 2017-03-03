@@ -1,9 +1,11 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using Epitech.Epicture.Model;
 using Epitech.Epicture.ViewModels;
 using Epitech.Epicture.Views.Controls;
 using Epitech.Epicture.Views.Core;
+using Plugin.Media;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.Views
@@ -74,6 +76,27 @@ namespace Epitech.Epicture.Views
 
             _scrollView.Scrolled += ScrollView_Scrolled;
             Content = _scrollView;
+
+            this.ToolbarItems.Add(new ToolbarItem("Upload", Icon, async () =>
+            {
+                await CrossMedia.Current.Initialize();
+                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                {
+                    await DisplayAlert("No Camera", ":( No camera available.", "OK");
+                    return;
+                }
+
+                var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                {
+                    SaveToAlbum = false,
+                    Directory = "Sample",
+                    Name = $"{DateTime.UtcNow}.jpg"
+                });
+
+                if (file == null)
+                    return;
+
+            }));
         }
 
         private void ScrollView_Scrolled(object sender, ScrolledEventArgs args)
@@ -147,7 +170,7 @@ namespace Epitech.Epicture.Views
 
             frame.GestureRecognizers.Add(new TapGestureRecognizer(async view =>
             {
-                await Navigation.PushAsync(new ImageDetailView((ImgurGaleryAsset)view.BindingContext));
+                await Navigation.PushAsync(new ImageDetailView(((ImgurGaleryAsset)view.BindingContext).Id));
             }));
             return frame;
         }
