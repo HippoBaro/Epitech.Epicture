@@ -80,14 +80,14 @@ namespace Epitech.Epicture.Views
         {
             foreach (RelativeLayout stackChild in _stack.Children.Where(view => view.BindingContext is ImgurGaleryAsset))
             {
-                RichImage image = stackChild.Children.First(view => view is RichImage) as RichImage;
-                void LoadAsset() => image.RichSource = ((ImgurGaleryAsset) stackChild.BindingContext).ContentImageMedium;
+                Image image = stackChild.Children.First(view => view is Image) as Image;
+                void LoadAsset() => image.Source = ((ImgurGaleryAsset) stackChild.BindingContext).ContentImageMedium;
                 if (stackChild.Bounds.IntersectsWith(new Rectangle(args.ScrollX, args.ScrollY, _scrollView.Bounds.Width, _scrollView.Bounds.Height).Inflate(0, Bounds.Height * 0.50)))
                     LoadAsset();
                 else
                 {
                     //stackChild.HeightRequest = stackChild.Bounds.Height;
-                    image.RichSource = null;
+                    image.Source = null;
                 }
             }
 
@@ -100,7 +100,7 @@ namespace Epitech.Epicture.Views
             if (!asset.ShouldDisplay)
                 return null;
 
-            var image = new RichImage()
+            var image = new Image()
             {
                 Aspect = Aspect.AspectFit,
                 BackgroundColor = Color.Accent
@@ -115,6 +115,7 @@ namespace Epitech.Epicture.Views
                         TextColor = Color.White
                     }
                 },
+                Orientation = StackOrientation.Horizontal,
                 Margin = new Thickness(0),
                 Padding = new Thickness(10),
                 BackgroundColor = Color.Black.MultiplyAlpha(0.7),

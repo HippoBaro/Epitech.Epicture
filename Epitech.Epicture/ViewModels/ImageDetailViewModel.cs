@@ -11,6 +11,7 @@ namespace Epitech.Epicture.ViewModels
     internal class ImageDetailViewModel : ViewModelBase
     {
         private ImgurGaleryAsset _imgurGaleryAsset;
+        private bool _isStared;
 
         public ImgurGaleryAsset ImgurGaleryAsset
         {
@@ -29,6 +30,21 @@ namespace Epitech.Epicture.ViewModels
         public ImgurClientService ImgurClientService { get; set; }
 
         public ICommand FetchComments => new Command(async () => await GetComments());
+
+        public bool IsStared
+        {
+            get { return _isStared; }
+            set
+            {
+                _isStared = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand StarCommand => new Command(o =>
+        {
+            IsStared = !IsStared;
+        });
 
         public ImageDetailViewModel()
         {

@@ -44,9 +44,7 @@ namespace Epitech.Epicture.UWP.Controls
                 Stretch = Stretch.UniformToFill,
                 Background = new SolidColorBrush(Colors.Brown)
             };
-
             
-
             _playerElement.SetMediaPlayer(_player);
             this.Children.Add(_playerElement);
         }

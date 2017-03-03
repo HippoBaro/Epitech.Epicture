@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Epitech.Epicture.Model.Core;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.Model
 {
     internal class ImgurGaleryAsset : ImgurBaseModel
     {
-        private WeakReference<ImageSource> _contentImage;
+        private WeakReference<ImageSource> _contentImageThumbmail;
+        private WeakReference<ImageSource> _contentImageFull;
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -56,9 +52,6 @@ namespace Epitech.Epicture.Model
         [JsonProperty("is_album")]
         public bool IsAlbum { get; set; }
 
-        [JsonProperty("mp4")]
-        public string Mp4Source { get; set; }
-
         public double Ratio => (double)Width / (double)Height;
 
         public bool ShouldDisplay
@@ -72,7 +65,28 @@ namespace Epitech.Epicture.Model
         }
 
 
-        public Uri ContentImageMedium => new Uri(IsAnimated && !string.IsNullOrEmpty(Mp4Source) ? Mp4Source : $"http://i.imgur.com/{Id}l.{Link.Substring(Link.Length - 3, 3)}");
+        public ImageSource ContentImageMedium
+        {
+            get
+            {
+                ImageSource Create()
+                {
+                    var link = new Uri($"http://i.imgur.com/{Id}l.{Link.Substring(Link.Length - 3, 3)}");
+                    return new UriImageSource()
+                {
+                    Uri = link,
+                    CachingEnabled = true,
+                    CacheValidity = TimeSpan.MaxValue
+                };}
+
+                if (_contentImageThumbmail == null)
+                    _contentImageThumbmail = new WeakReference<ImageSource>(Create());
+                if (_contentImageThumbmail.TryGetTarget(out ImageSource res))
+                    return res;
+                _contentImageThumbmail.SetTarget(Create());
+                return _contentImageThumbmail.TryGetTarget(out res) ? res : null;
+            }
+        }
 
         public ImageSource ContentImageFull
         {
@@ -85,12 +99,12 @@ namespace Epitech.Epicture.Model
                     CacheValidity = TimeSpan.MaxValue
                 };
 
-                if (_contentImage == null)
-                    _contentImage = new WeakReference<ImageSource>(Create());
-                if (_contentImage.TryGetTarget(out ImageSource res))
+                if (_contentImageFull == null)
+                    _contentImageFull = new WeakReference<ImageSource>(Create());
+                if (_contentImageFull.TryGetTarget(out ImageSource res))
                     return res;
-                _contentImage.SetTarget(Create());
-                return _contentImage.TryGetTarget(out res) ? res : null;
+                _contentImageFull.SetTarget(Create());
+                return _contentImageFull.TryGetTarget(out res) ? res : null;
             }
         }
     }

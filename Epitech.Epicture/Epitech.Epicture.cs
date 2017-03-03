@@ -1,4 +1,5 @@
 ﻿using Epitech.Epicture.Views;
+using Splat;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture
@@ -7,6 +8,8 @@ namespace Epitech.Epicture
 	{
 		public App()
 		{
+            //Splat.Locator.CurrentMutable.RegisterLazySingleton();
+
 		    MainPage = new TabbedPage
 		    {
 		        Children =
