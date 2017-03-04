@@ -91,6 +91,12 @@
     <Reference Include="Plugin.Media.Abstractions, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xam.Plugin.Media.2.6.2\lib\Xamarin.iOS10\Plugin.Media.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.Settings, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.5.4\lib\Xamarin.iOS10\Plugin.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.5.4\lib\Xamarin.iOS10\Plugin.Settings.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -136,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\RichImage.cs" />
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
   </ItemGroup>

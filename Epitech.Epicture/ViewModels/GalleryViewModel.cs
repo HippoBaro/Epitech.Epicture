@@ -1,9 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Epitech.Epicture.Model;
 using Epitech.Epicture.Services;
 using Epitech.Epicture.ViewModels.Core;
+using Plugin.Media.Abstractions;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels
@@ -48,6 +50,35 @@ namespace Epitech.Epicture.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public ICommand UploadFileCommand => new Command<MediaFile>(async file =>
+        {
+            if (string.IsNullOrEmpty(App.IdentityProvider.IdentityToken))
+            {
+                Device.OpenUri(App.IdentityProvider.GetAuthorisationUrl());
+                var pin = await DisplayInputBox("Authentication", "Fill-in the provided PIN", "Your PIN");
+                if (string.IsNullOrWhiteSpace(pin))
+                    return;
+                try
+                {
+                    await App.IdentityProvider.Authorize(pin);
+                }
+                catch (Exception e)
+                {
+                    await Page.DisplayAlert("Error", e.Message, "Ok");
+                    return;
+                }
+            }
+            try
+            {
+                await ImgurClientService.UploadImage(file.GetStream());
+                await Page.DisplayAlert("Success", "It's Aliiivvvvee", "Ok");
+            }
+            catch (Exception e)
+            {
+                await Page.DisplayAlert("Error", e.Message, "Ok");
+            }
+        });
 
         public GalleryViewModel()
         {

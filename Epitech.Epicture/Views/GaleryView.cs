@@ -3,9 +3,9 @@ using System.Collections.Specialized;
 using System.Linq;
 using Epitech.Epicture.Model;
 using Epitech.Epicture.ViewModels;
-using Epitech.Epicture.Views.Controls;
 using Epitech.Epicture.Views.Core;
 using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.Views
@@ -79,23 +79,50 @@ namespace Epitech.Epicture.Views
 
             this.ToolbarItems.Add(new ToolbarItem("Upload", Icon, async () =>
             {
-                await CrossMedia.Current.Initialize();
-                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-                {
-                    await DisplayAlert("No Camera", ":( No camera available.", "OK");
+                var selection = await DisplayActionSheet("Upload image", "Cancel", null, "Pick from Camera Roll", "Take photo");
+                if (string.IsNullOrEmpty(selection) || selection == "Cancel")
                     return;
-                }
+                
+                await CrossMedia.Current.Initialize();
 
-                var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                MediaFile file = null;
+                if (selection == "Take photo")
                 {
-                    SaveToAlbum = false,
-                    Directory = "Sample",
-                    Name = $"{DateTime.UtcNow}.jpg"
-                });
+                    if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                    {
+                        await DisplayAlert("No Camera", ":( No camera available.", "OK");
+                        return;
+                    }
+                    file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                    {
+                        SaveToAlbum = false,
+                        Directory = "ImageTemp",
+                        Name = $"{DateTime.UtcNow}.jpg",
+                        AllowCropping = false,
+                        PhotoSize = PhotoSize.Large,
+                        CompressionQuality = 92,
+                    });
+                }
+                else
+                {
+                    file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                    {
+                        CompressionQuality = 92,
+                        PhotoSize = PhotoSize.Large,
+                    });
+                }
 
                 if (file == null)
                     return;
 
+                try
+                {
+                    ViewModel.UploadFileCommand.Execute(file);
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("error", e.Message, "Ok");
+                }
             }));
         }
 

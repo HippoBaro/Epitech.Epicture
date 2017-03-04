@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Epitech.Epicture.cs" />
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Model\Core\ImgurApiResponse.cs" />
     <Compile Include="Model\Core\ImgurBaseModel.cs" />
     <Compile Include="Model\ImgurAuthorisation.cs" />
@@ -60,6 +61,12 @@
     </Reference>
     <Reference Include="Plugin.Media.Abstractions, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xam.Plugin.Media.2.6.2\lib\portable-net45+wp80+win8+wpa81\Plugin.Media.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.5.4\lib\portable-net45+wp80+win8+wpa81\Plugin.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.5.4\lib\portable-net45+wp80+win8+wpa81\Plugin.Settings.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Splat, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.2.0.0\lib\netstandard1.1\Splat.dll</HintPath>

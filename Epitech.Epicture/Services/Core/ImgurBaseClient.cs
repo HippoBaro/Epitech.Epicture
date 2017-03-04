@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -25,7 +26,14 @@ namespace Epitech.Epicture.Services.Core
                     Headers = {Authorization = AuthenticationHeaderValue.Parse($"{auth.GetAuthenticationHeader()}")}
                 };
 
-                return selector(Newtonsoft.Json.JsonConvert.DeserializeObject<T>(await (await Client.SendAsync(response)).Content.ReadAsStringAsync()));
+                var res = await Client.SendAsync(response);
+
+                if (res.StatusCode == HttpStatusCode.Unauthorized)
+                    await auth.ReAuthorize();
+                if (!res.IsSuccessStatusCode)
+                    throw new Exception();
+
+                return selector(Newtonsoft.Json.JsonConvert.DeserializeObject<T>(await res.Content.ReadAsStringAsync()));
             }
             catch (Exception e)
             {
