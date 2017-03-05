@@ -16,7 +16,7 @@ namespace Epitech.Epicture.Services.Flickr
     {
         public Task<List<IImageAsset>> GetMainGalery(int page)
         {
-            return Execute<JObject, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.getRecent", new Dictionary<string, string> {{ "page", page.ToString() }}, async arg =>
+            return Execute<JObject, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.getRecent", new Dictionary<string, string> {{ "page", page.ToString() }}, "photo", async arg =>
             {
                 var tr = arg.Data.Children().Last().First;
                 var t = tr.ToObject<List<FlickrGaleryAsset>>();
@@ -28,7 +28,7 @@ namespace Epitech.Epicture.Services.Flickr
 
         public Task<List<IImageAsset>> SearchMainGalery(string query, int page)
         {
-            return Execute<List<FlickrGaleryAsset>, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.search", new Dictionary<string, string>{{"text", query}, {"page", page.ToString()}}, async arg =>
+            return Execute<List<FlickrGaleryAsset>, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.search", new Dictionary<string, string>{{"text", query}, {"page", page.ToString()}}, "photo", async arg =>
             {
                 foreach (var asset in arg.Data)
                     asset.Sources = await GetImageSizes(asset);
@@ -38,7 +38,12 @@ namespace Epitech.Epicture.Services.Flickr
 
         public Task<List<IAssetComment>> GetGalleryAssetComments(IImageAsset asset)
         {
-            return Execute<List<FlickrComment>, List<IAssetComment>>(HttpMethod.Get, "flickr.photos.comments.getList", new Dictionary<string, string> {{ "photo_id", asset.Id }}, arg => new List<IAssetComment>(arg.Data));
+            return Execute<JObject, List<IAssetComment>>(HttpMethod.Get, "flickr.photos.comments.getList", new Dictionary<string, string> {{ "photo_id", asset.Id }}, "comment",
+                arg =>
+                {
+                    var ret = arg.Data.Value<List<FlickrComment>>("comment");
+                    return new List<IAssetComment>(ret);
+                });
         }
 
         public Task<string> FavoriteImage(IImageAsset asset)
@@ -48,7 +53,7 @@ namespace Epitech.Epicture.Services.Flickr
 
         public Task<IImageAsset> GetImage(string assetId)
         {
-            return Execute<JObject, IImageAsset>(HttpMethod.Get, "flickr.photos.getInfo", new Dictionary<string, string> { { "photo_id", assetId } }, async (arg) =>
+            return Execute<JObject, IImageAsset>(HttpMethod.Get, "flickr.photos.getInfo", new Dictionary<string, string> { { "photo_id", assetId } }, "", async (arg) =>
             {
                 var ret = arg.Data.ToObject<FlickrGaleryAsset>();
                 ret.Sources = await GetImageSizes(ret);
@@ -63,7 +68,7 @@ namespace Epitech.Epicture.Services.Flickr
 
         private Task<List<FlickrAssetSource>> GetImageSizes(FlickrGaleryAsset asset)
         {
-            return Execute<JObject, List<FlickrAssetSource>>(HttpMethod.Get, "flickr.photos.getSizes", new Dictionary<string, string> { { "photo_id", asset.Id } },
+            return Execute<JObject, List<FlickrAssetSource>>(HttpMethod.Get, "flickr.photos.getSizes", new Dictionary<string, string> { { "photo_id", asset.Id } }, "size",
                 arg =>
                 {
                     var ret = arg.Data.Last.First.ToObject<List<FlickrAssetSource>>();

@@ -23,7 +23,7 @@ namespace Epitech.Epicture.Services.Flickr.Core
 
         public IOAuthIdentityProvider IdentityProvider { get; } = new ImgurOauthIdentityProvider();
 
-        protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string logicMethod, Dictionary<string, string> param, Func<FlickrApiResponse<T>, TReturn> selector)
+        protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string logicMethod, Dictionary<string, string> param, string mappingName, Func<FlickrApiResponse<T>, TReturn> selector)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Epitech.Epicture.Services.Flickr.Core
             }
         }
 
-        protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string logicMethod, Dictionary<string, string> param, Func<FlickrApiResponse<T>, Task<TReturn>> selector)
+        protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string logicMethod, Dictionary<string, string> param, string mappingName,Func<FlickrApiResponse<T>, Task<TReturn>> selector)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace Epitech.Epicture.Services.Flickr.Core
 
                 var apiResponse = new FlickrApiResponse<T>
                 {
-                    Data = ((JObject) temp.First().Value).ToObject<T>(),
+                    Data = ((JObject)temp.First().Value).ToObject<T>(),
                     Success = (string) temp.First(pair => pair.Key == "stat").Value
                 };
 
