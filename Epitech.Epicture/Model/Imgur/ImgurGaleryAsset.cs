@@ -56,7 +56,7 @@ namespace Epitech.Epicture.Model.Imgur
         [JsonProperty("is_album")]
         public bool IsAlbum { get; set; }
 
-        public double Ratio => (double)Width / (double)Height;
+        public double Ratio => Width / (double)Height;
 
         public bool ShouldDisplay
         {

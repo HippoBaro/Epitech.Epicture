@@ -22,7 +22,7 @@ namespace Epitech.Epicture.Model.Flickr
 
         public bool Favorite => false;
 
-        public double Ratio => (double) Sources.Last().Width / (double) Sources.Last().Height;
+        public double Ratio => Sources.Last().Width / (double) Sources.Last().Height;
 
         public ImageSource ContentImageMedium
         {
@@ -77,19 +77,8 @@ namespace Epitech.Epicture.Model.Flickr
             throw new NotImplementedException();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.ValueType == typeof(string))
-                return reader.Value;
-            else
-            {
-                return "";
-            }
-        }
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) => reader.ValueType == typeof(string) ? reader.Value : "";
 
-        public override bool CanConvert(Type objectType)
-        {
-            return true;
-        }
+        public override bool CanConvert(Type objectType) => true;
     }
 }
