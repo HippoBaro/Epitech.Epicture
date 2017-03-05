@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Epitech.Epicture.Model.Core.Contract;
 using Newtonsoft.Json;
 
 namespace Epitech.Epicture.Model.Core
 {
-    public class ImgurApiResponse<TInnerType>
+    internal class ImgurApiResponse<TInnerType>
     {
         [JsonProperty("data")]
         public TInnerType Data { get; set; }

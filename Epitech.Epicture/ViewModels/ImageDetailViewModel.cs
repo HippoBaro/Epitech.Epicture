@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Epitech.Epicture.Model;
+using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.Services;
 using Epitech.Epicture.ViewModels.Core;
 using Xamarin.Forms;
@@ -11,11 +11,11 @@ namespace Epitech.Epicture.ViewModels
 {
     internal class ImageDetailViewModel : ViewModelBase
     {
-        private ImgurGaleryAsset _imgurGaleryAsset;
+        private IImageAsset _imgurGaleryAsset;
         private bool _isStared;
         private string _assetId;
 
-        public ImgurGaleryAsset ImgurGaleryAsset
+        public IImageAsset ImgurGaleryAsset
         {
             get { return _imgurGaleryAsset; }
             set
@@ -41,7 +41,7 @@ namespace Epitech.Epicture.ViewModels
             }
         }
 
-        public ObservableCollection<ImgurComment> Comments { get; set; } = new ObservableCollection<ImgurComment>();
+        public ObservableCollection<IAssetComment> Comments { get; set; } = new ObservableCollection<IAssetComment>();
 
         public ImgurClientService ImgurClientService { get; set; }
 

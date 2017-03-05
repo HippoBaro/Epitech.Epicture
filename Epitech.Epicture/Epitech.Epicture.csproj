@@ -32,7 +32,9 @@
   <ItemGroup>
     <Compile Include="Epitech.Epicture.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Model\Contract\IAssetComment.cs" />
     <Compile Include="Model\Contract\IImageAsset.cs" />
+    <Compile Include="Model\Core\Contract\IAsset.cs" />
     <Compile Include="Model\Core\ImgurApiResponse.cs" />
     <Compile Include="Model\Core\ImgurBaseModel.cs" />
     <Compile Include="Model\ImgurAuthorisation.cs" />
@@ -40,6 +42,7 @@
     <Compile Include="Model\ImgurGaleryAsset.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Contracts\IImageClientService.cs" />
     <Compile Include="Services\Core\ImgurBaseClient.cs" />
     <Compile Include="Services\ImgurClientService.cs" />
     <Compile Include="Services\ImgurOauthIdentityProvider.cs" />
@@ -98,9 +101,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Contracts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Ressources\star_filled.png" />
     <EmbeddedResource Include="Ressources\star_empty.png" />

@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Epitech.Epicture.Model.Core.Contract;
+using Xamarin.Forms;
 
 namespace Epitech.Epicture.Model.Contract
 {
-    internal interface IImageAsset
+    internal interface IImageAsset : IAsset
     {
+        bool ShouldDisplay { get; }
+        bool Favorite { get; }
+        string Title { get; }
+
+        double Ratio { get; }
+        ImageSource ContentImageMedium { get; }
+        ImageSource ContentImageFull { get; }
     }
 }

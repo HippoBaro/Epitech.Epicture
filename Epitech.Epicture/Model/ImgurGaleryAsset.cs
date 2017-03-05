@@ -1,11 +1,12 @@
 ﻿using System;
+using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.Model.Core;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.Model
 {
-    internal class ImgurGaleryAsset : ImgurBaseModel
+    internal class ImgurGaleryAsset : ImgurBaseModel, IImageAsset
     {
         private WeakReference<ImageSource> _contentImageThumbmail;
         private WeakReference<ImageSource> _contentImageFull;

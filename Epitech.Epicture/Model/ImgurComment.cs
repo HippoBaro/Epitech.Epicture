@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.Model.Core;
 using Newtonsoft.Json;
 
 namespace Epitech.Epicture.Model
 {
-    internal class ImgurComment : ImgurBaseModel
+    internal class ImgurComment : ImgurBaseModel, IAssetComment
     {
         [JsonProperty("image_id")]
         public string ImageId { get; set; }

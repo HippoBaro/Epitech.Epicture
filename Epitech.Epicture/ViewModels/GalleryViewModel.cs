@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Epitech.Epicture.Model;
+using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.Services;
 using Epitech.Epicture.ViewModels.Core;
 using Plugin.Media.Abstractions;
@@ -12,13 +12,13 @@ namespace Epitech.Epicture.ViewModels
 {
     internal class GalleryViewModel : ViewModelBase
     {
-        private ObservableCollection<ImgurGaleryAsset> _assets = new ObservableCollection<ImgurGaleryAsset>();
+        private ObservableCollection<IImageAsset> _assets = new ObservableCollection<IImageAsset>();
         private string _searchQuery;
         private int _currentPage;
 
         public ImgurClientService ImgurClientService { get; set; }
 
-        public ObservableCollection<ImgurGaleryAsset> Assets
+        public ObservableCollection<IImageAsset> Assets
         {
             get { return _assets; }
             set
@@ -103,8 +103,8 @@ namespace Epitech.Epicture.ViewModels
             
             foreach (var asset in assets)
             {
-                if (!string.IsNullOrEmpty(asset.Link))
-                Assets.Add(asset);
+                if (asset.ShouldDisplay)
+                    Assets.Add(asset);
             }
             IsFetching = false;
         }

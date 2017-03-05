@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using Epitech.Epicture.Model;
+using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.ViewModels;
 using Epitech.Epicture.Views.Core;
 using Plugin.Media;
@@ -50,7 +51,7 @@ namespace Epitech.Epicture.Views
                     case NotifyCollectionChangedAction.Add:
                         foreach (var argsNewItem in args.NewItems)
                         {
-                            var item = GetImage((ImgurGaleryAsset) argsNewItem);
+                            var item = GetImage((IImageAsset) argsNewItem);
                             if (item != null)
                                 _stack.Children.Add(item);
                         }
@@ -145,7 +146,7 @@ namespace Epitech.Epicture.Views
                 ViewModel.FetchCommand.Execute(++ViewModel.CurrentPage);
         }
 
-        private RelativeLayout GetImage(ImgurGaleryAsset asset)
+        private RelativeLayout GetImage(IImageAsset asset)
         {
             if (!asset.ShouldDisplay)
                 return null;
