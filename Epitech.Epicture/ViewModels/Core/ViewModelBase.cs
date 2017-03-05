@@ -96,15 +96,23 @@ namespace Epitech.Epicture.ViewModels.Core
             return tcs.Task;
         }
 
-        protected async Task<bool> EnsureUserIsAuthenticated(IOAuthIdentityProvider identityProvider)
+        protected virtual async Task<bool> EnsureUserIsAuthenticated(IOAuthIdentityProvider identityProvider)
         {
-            if (!string.IsNullOrEmpty(identityProvider.IdentityToken)) return true;
-            Device.OpenUri(identityProvider.GetAuthorisationUrl());
-            var pin = await DisplayInputBox("Authentication", "Fill-in the provided PIN", "Your PIN");
-            if (string.IsNullOrWhiteSpace(pin))
-                return false;
             try
             {
+                if (!string.IsNullOrEmpty(identityProvider.IdentityToken)) return true;
+                if (!await Page.DisplayAlert("Authentication", "You need to be authenticated to performs this action", "Authenticate", "Dismiss"))
+                    return false;
+                string pin = null;
+                Device.OpenUri(await identityProvider.GetAuthorisationUrl());
+                if (identityProvider.NeedUserInput)
+                {
+                    pin = await DisplayInputBox("Authentication", "Fill-in the provided PIN", "Your PIN");
+                    if (string.IsNullOrWhiteSpace(pin))
+                        return false;
+                }
+                else if (!await Page.DisplayAlert("Authentication", "Authorize Flickr before continuing.", "Complete authentication", "Dismiss"))
+                    return false;
                 await identityProvider.Authorize(pin);
             }
             catch (Exception e)

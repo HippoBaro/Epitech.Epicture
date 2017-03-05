@@ -29,7 +29,8 @@ namespace Epitech.Epicture.Model.Flickr
 
         public bool ShouldDisplay => !string.IsNullOrEmpty(LinkThumbmail);
 
-        public bool Favorite => false;
+        [JsonProperty("isfavorite")]
+        public bool Favorite { get; set; }
 
         public double Ratio => Width / (double) Height;
 

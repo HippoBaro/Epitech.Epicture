@@ -46,7 +46,9 @@ namespace Epitech.Epicture.Services.Flickr
 
         public Task<string> FavoriteImage(IImageAsset asset)
         {
-            throw new NotImplementedException();
+            if (asset.Favorite)
+                return ExecuteNoReturn(HttpMethod.Get, "flickr.favorites.remove", new Dictionary<string, string> { { "photo_id", asset.Id } }, "comment", arg => "unfavorited");
+            return ExecuteNoReturn(HttpMethod.Get, "flickr.favorites.add", new Dictionary<string, string> { { "photo_id", asset.Id } }, "comment", arg => "favorited");
         }
 
         public Task<IImageAsset> GetImage(string assetId)
@@ -61,17 +63,15 @@ namespace Epitech.Epicture.Services.Flickr
 
         public Task UploadImage(Stream image)
         {
-            throw new NotImplementedException();
+            throw new Exception("Flick API is monumentally bad. So not uploading.");
         }
 
         private Task<List<FlickrAssetSource>> GetImageSizes(FlickrGaleryAsset asset)
         {
-            return Execute<JObject, List<FlickrAssetSource>>(HttpMethod.Get, "flickr.photos.getSizes", new Dictionary<string, string> { { "photo_id", asset.Id } }, "size",
-                arg =>
-                {
-                    var ret = arg.Data.Last.First.ToObject<List<FlickrAssetSource>>();
-                    return ret;
-                });
+            return Execute<JObject, List<FlickrAssetSource>>(HttpMethod.Get, "flickr.photos.getSizes", new Dictionary<string, string> { { "photo_id", asset.Id } }, "size", arg => {
+                var ret = arg.Data.Last.First.ToObject<List<FlickrAssetSource>>();
+                return ret;
+            });
         }
     }
 }

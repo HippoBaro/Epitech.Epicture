@@ -54,6 +54,8 @@ namespace Epitech.Epicture.ViewModels
 
         public ICommand UploadFileCommand => new Command(async () =>
         {
+            if (!await EnsureUserIsAuthenticated(ImageClientService.IdentityProvider))
+                return;
             var selection = await Page.DisplayActionSheet("Upload image", "Cancel", null, "Pick from Camera Roll", "Take photo");
             if (string.IsNullOrEmpty(selection) || selection == "Cancel")
                 return;
@@ -108,8 +110,6 @@ namespace Epitech.Epicture.ViewModels
 
         private async Task UploadFile(MediaFile file)
         {
-            if (!await EnsureUserIsAuthenticated(ImageClientService.IdentityProvider))
-                return;
             try
             {
                 await ImageClientService.UploadImage(file.GetStream());

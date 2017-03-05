@@ -17,29 +17,36 @@ namespace Epitech.Epicture.Services.Imgur
 
         public string IdentityToken
         {
-            get { return CrossSettings.Current.GetValueOrDefault<string>("IdentityToken"); }
-            set { CrossSettings.Current.AddOrUpdateValue("IdentityToken", value); }
+            get { return CrossSettings.Current.GetValueOrDefault<string>("ImgurIdentityToken"); }
+            set { CrossSettings.Current.AddOrUpdateValue("ImgurIdentityToken", value); }
         }
 
         public string RefreshToken
         {
-            get { return CrossSettings.Current.GetValueOrDefault<string>("RefreshToken"); }
-            set { CrossSettings.Current.AddOrUpdateValue("RefreshToken", value); }
+            get { return CrossSettings.Current.GetValueOrDefault<string>("ImgurRefreshToken"); }
+            set { CrossSettings.Current.AddOrUpdateValue("ImgurRefreshToken", value); }
         }
 
         public string UserId
         {
-            get { return CrossSettings.Current.GetValueOrDefault<string>("UserId"); }
-            set { CrossSettings.Current.AddOrUpdateValue("UserId", value); }
+            get { return CrossSettings.Current.GetValueOrDefault<string>("ImgurUserId"); }
+            set { CrossSettings.Current.AddOrUpdateValue("ImgurUserId", value); }
         }
 
         public string UserName
         {
-            get { return CrossSettings.Current.GetValueOrDefault<string>("UserName"); }
-            set { CrossSettings.Current.AddOrUpdateValue("UserName", value); }
+            get { return CrossSettings.Current.GetValueOrDefault<string>("ImgurUserName"); }
+            set { CrossSettings.Current.AddOrUpdateValue("ImgurUserName", value); }
         }
 
-        public Uri GetAuthorisationUrl() => new Uri($"https://api.imgur.com/oauth2/authorize?client_id={ImgurBaseClient.ClientId}&response_type=pin&state=authorizeXamForms");
+        public bool NeedUserInput { get; }
+
+        public ImgurOauthIdentityProvider(bool needUserInput)
+        {
+            NeedUserInput = needUserInput;
+        }
+
+        public async Task<Uri> GetAuthorisationUrl() => new Uri($"https://api.imgur.com/oauth2/authorize?client_id={ImgurBaseClient.ClientId}&response_type=pin&state=authorizeXamForms");
 
         public string GetAuthenticationHeader() => string.IsNullOrEmpty(IdentityToken) ? $"Client-ID {ImgurBaseClient.ClientId}" : $"Bearer {IdentityToken}";
 
