@@ -6,14 +6,11 @@ namespace Epitech.Epicture.Model.Flickr
 {
     internal class FlickrComment : FlickrBaseModel, IAssetComment
     {
-        [JsonProperty("author")]
-        public string Author { get; set; }
-
         [JsonProperty("author_is_deleted")]
         public int AuthorIsDeleted { get; set; }
 
         [JsonProperty("authorname")]
-        public string Authorname { get; set; }
+        public string Author { get; set; }
 
         [JsonProperty("iconserver")]
         public string Iconserver { get; set; }

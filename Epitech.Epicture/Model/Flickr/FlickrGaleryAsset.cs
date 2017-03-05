@@ -18,11 +18,20 @@ namespace Epitech.Epicture.Model.Flickr
         [JsonProperty("title"), JsonConverter(typeof(PersonConverter))]
         public string Title { get; set; }
 
-        public bool ShouldDisplay => Sources != null;
+        [JsonProperty("url_l")]
+        public string LinkThumbmail { get; set; }
+
+        [JsonProperty("height_l")]
+        public int Height { get; set; }
+
+        [JsonProperty("width_l")]
+        public int Width { get; set; }
+
+        public bool ShouldDisplay => !string.IsNullOrEmpty(LinkThumbmail);
 
         public bool Favorite => false;
 
-        public double Ratio => Sources.Last().Width / (double) Sources.Last().Height;
+        public double Ratio => Width / (double) Height;
 
         public ImageSource ContentImageMedium
         {
@@ -30,8 +39,7 @@ namespace Epitech.Epicture.Model.Flickr
             {
                 ImageSource Create()
                 {
-                    var sizes = Sources.Where(source => source.Label.Split(' ').Length == 1);
-                    var link = new Uri(sizes.ElementAt(sizes.Count() / 2).Source);
+                    var link = new Uri(LinkThumbmail);
                     return new UriImageSource
                     {
                         Uri = link,

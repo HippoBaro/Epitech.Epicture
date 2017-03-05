@@ -16,23 +16,21 @@ namespace Epitech.Epicture.Services.Flickr
     {
         public Task<List<IImageAsset>> GetMainGalery(int page)
         {
-            return Execute<JObject, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.getRecent", new Dictionary<string, string> {{ "page", page.ToString() }}, "photo", async arg =>
+            return Execute<JObject, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.getRecent", new Dictionary<string, string> {{ "page", page.ToString() }, {"extras", "url_l" }}, "photo", arg =>
             {
                 var tr = arg.Data.Children().Last().First;
                 var t = tr.ToObject<List<FlickrGaleryAsset>>();
-                    foreach (var asset in t)
-                        asset.Sources = await GetImageSizes(asset);
-                    return new List<IImageAsset>(t);
-                });
+                return new List<IImageAsset>(t);
+            });
         }
 
         public Task<List<IImageAsset>> SearchMainGalery(string query, int page)
         {
-            return Execute<List<FlickrGaleryAsset>, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.search", new Dictionary<string, string>{{"text", query}, {"page", page.ToString()}}, "photo", async arg =>
+            return Execute<JObject, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.search", new Dictionary<string, string>{{"text", query}, {"page", page.ToString()}, { "extras", "url_l" }, { "sort", "interestingness-desc" } }, "photo", arg =>
             {
-                foreach (var asset in arg.Data)
-                    asset.Sources = await GetImageSizes(asset);
-                return new List<IImageAsset>(arg.Data);
+                var tr = arg.Data.Children().Last().First;
+                var t = tr.ToObject<List<FlickrGaleryAsset>>();
+                return new List<IImageAsset>(t);
             });
         }
 
@@ -41,7 +39,7 @@ namespace Epitech.Epicture.Services.Flickr
             return Execute<JObject, List<IAssetComment>>(HttpMethod.Get, "flickr.photos.comments.getList", new Dictionary<string, string> {{ "photo_id", asset.Id }}, "comment",
                 arg =>
                 {
-                    var ret = arg.Data.Value<List<FlickrComment>>("comment");
+                    var ret = arg.Data.Last.First.ToObject<List<FlickrComment>>();
                     return new List<IAssetComment>(ret);
                 });
         }

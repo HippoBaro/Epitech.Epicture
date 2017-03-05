@@ -97,9 +97,6 @@ namespace Epitech.Epicture.Views
 
         private RelativeLayout GetImage(IImageAsset asset)
         {
-            if (!asset.ShouldDisplay)
-                return null;
-
             var image = new Image
             {
                 Aspect = Aspect.AspectFit,
