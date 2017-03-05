@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="Epitech.Epicture.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Model\Contract\IImageAsset.cs" />
     <Compile Include="Model\Core\ImgurApiResponse.cs" />
     <Compile Include="Model\Core\ImgurBaseModel.cs" />
     <Compile Include="Model\ImgurAuthorisation.cs" />
