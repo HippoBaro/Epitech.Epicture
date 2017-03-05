@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Epitech.Epicture.Model.Flickr;
 using Epitech.Epicture.Model.Flickr.Core;
-using Epitech.Epicture.Model.Imgur;
 using Epitech.Epicture.Services.Contracts;
 using Epitech.Epicture.Services.Flickr.Core;
 using Epitech.Epicture.Services.Imgur.Core;
@@ -126,7 +125,7 @@ namespace Epitech.Epicture.Services.Flickr
             }
         }
 
-        public async Task ReAuthorize()
+        public Task ReAuthorize()
         {
             throw new Exception("Unable to authenticate");
         }

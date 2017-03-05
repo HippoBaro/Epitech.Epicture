@@ -80,8 +80,9 @@ namespace Epitech.Epicture.Views
 
         private void ScrollView_Scrolled(object sender, ScrolledEventArgs args)
         {
-            foreach (RelativeLayout stackChild in _stack.Children.Where(view => view.BindingContext is IImageAsset))
+            foreach (var view1 in _stack.Children.Where(view => view.BindingContext is IImageAsset))
             {
+                var stackChild = (RelativeLayout) view1;
                 var image = stackChild.Children.First(view => view is Image) as Image;
                 if (image == null) continue;
                 void LoadAsset() => image.Source = ((IImageAsset) stackChild.BindingContext).ContentImageMedium;

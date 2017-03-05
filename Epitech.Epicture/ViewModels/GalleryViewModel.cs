@@ -62,7 +62,7 @@ namespace Epitech.Epicture.ViewModels
 
             await CrossMedia.Current.Initialize();
 
-            MediaFile file = null;
+            MediaFile file;
             if (selection == "Take photo")
             {
                 if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)

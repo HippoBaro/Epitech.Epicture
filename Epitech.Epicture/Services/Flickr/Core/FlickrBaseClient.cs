@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Epitech.Epicture.Model.Flickr.Core;
 using Epitech.Epicture.Services.Contracts;
-using Epitech.Epicture.Services.Imgur;
 using Newtonsoft.Json.Linq;
 
 namespace Epitech.Epicture.Services.Flickr.Core
