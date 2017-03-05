@@ -66,10 +66,10 @@ namespace Epitech.Epicture.ViewModels
 
         private async Task GetComments()
         {
-            var comments = await ImageClientService.GetGalleryAssetComments(ImgurAsset);
-            Comments.Clear();
-            foreach (var comment in comments)
-                Comments.Add(comment);
+            //var comments = await ImageClientService.GetGalleryAssetComments(ImgurAsset);
+            //Comments.Clear();
+            //foreach (var comment in comments)
+            //    Comments.Add(comment);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Epitech.Epicture.Model;
+using Epitech.Epicture.Model.Imgur;
 using Epitech.Epicture.Services.Contracts;
 using Epitech.Epicture.Services.Imgur.Core;
 using Plugin.Settings;

@@ -1,6 +1,4 @@
-﻿using Epitech.Epicture.Model.Core.Contract;
-
-namespace Epitech.Epicture.Model.Contract
+﻿namespace Epitech.Epicture.Model.Contract
 {
     internal interface IAssetComment : IAsset
     {

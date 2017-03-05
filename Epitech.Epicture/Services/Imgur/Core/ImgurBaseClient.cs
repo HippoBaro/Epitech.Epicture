@@ -18,7 +18,7 @@ namespace Epitech.Epicture.Services.Imgur.Core
             BaseAddress = new Uri("https://api.imgur.com/")
         });
 
-        public IOAuthIdentityProvider IdentityProvider { get; set; } = new ImgurOauthIdentityProvider();
+        public IOAuthIdentityProvider IdentityProvider { get; } = new ImgurOauthIdentityProvider();
 
         protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string ressource, Func<T, TReturn> selector)
         {

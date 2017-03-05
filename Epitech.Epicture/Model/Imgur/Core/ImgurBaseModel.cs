@@ -1,7 +1,7 @@
-﻿using Epitech.Epicture.Model.Core.Contract;
+﻿using Epitech.Epicture.Model.Contract;
 using Newtonsoft.Json;
 
-namespace Epitech.Epicture.Model.Core
+namespace Epitech.Epicture.Model.Imgur.Core
 {
     internal class ImgurBaseModel : IAsset
     {

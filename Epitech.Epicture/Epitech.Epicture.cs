@@ -1,4 +1,5 @@
-﻿using Epitech.Epicture.Services.Imgur;
+﻿using Epitech.Epicture.Services.Flickr;
+using Epitech.Epicture.Services.Imgur;
 using Epitech.Epicture.Views;
 using Splat;
 using Xamarin.Forms;
@@ -10,13 +11,15 @@ namespace Epitech.Epicture
         public App()
 		{
             Locator.CurrentMutable.RegisterLazySingleton(() => new ImgurClientService(), typeof(ImgurClientService));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new FlickrClientService(), typeof(FlickrClientService));
 
-		    MainPage = new TabbedPage
+            MainPage = new TabbedPage
 		    {
 		        Children =
 		        {
-		            new NavigationPage(new GaleryView<ImgurClientService>()) { Title = "Imgur" }
-		        }
+		            new NavigationPage(new GaleryView<ImgurClientService>()) { Title = "Imgur" },
+                    new NavigationPage(new GaleryView<FlickrClientService>()) { Title = "Flickr" }
+                }
 		    };
 		}
 

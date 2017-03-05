@@ -1,10 +1,10 @@
 ﻿using System;
 using Epitech.Epicture.Model.Contract;
-using Epitech.Epicture.Model.Core;
+using Epitech.Epicture.Model.Imgur.Core;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
-namespace Epitech.Epicture.Model
+namespace Epitech.Epicture.Model.Imgur
 {
     internal class ImgurGaleryAsset : ImgurBaseModel, IImageAsset
     {

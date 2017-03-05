@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Epitech.Epicture.Model.Contract;
-using Epitech.Epicture.Model.Core;
+using Epitech.Epicture.Model.Imgur.Core;
 using Newtonsoft.Json;
 
-namespace Epitech.Epicture.Model
+namespace Epitech.Epicture.Model.Imgur
 {
     internal class ImgurComment : ImgurBaseModel, IAssetComment
     {

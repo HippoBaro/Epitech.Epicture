@@ -75,7 +75,7 @@ namespace Epitech.Epicture.Views
             _scrollView.Scrolled += ScrollView_Scrolled;
             Content = _scrollView;
 
-            this.ToolbarItems.Add(new ToolbarItem("Upload", Icon, () => ViewModel.UploadFileCommand.Execute(null)));
+            ToolbarItems.Add(new ToolbarItem("Upload", Icon, () => ViewModel.UploadFileCommand.Execute(null)));
         }
 
         private void ScrollView_Scrolled(object sender, ScrolledEventArgs args)

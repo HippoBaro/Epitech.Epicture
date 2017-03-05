@@ -1,5 +1,4 @@
-﻿using Epitech.Epicture.Model.Core.Contract;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Epitech.Epicture.Model.Contract
 {

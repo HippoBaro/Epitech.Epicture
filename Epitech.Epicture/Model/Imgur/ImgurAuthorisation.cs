@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Epitech.Epicture.Model
+namespace Epitech.Epicture.Model.Imgur
 {
     internal class ImgurAuthorisation
     {

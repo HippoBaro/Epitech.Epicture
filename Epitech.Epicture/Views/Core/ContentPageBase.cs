@@ -12,12 +12,7 @@ namespace Epitech.Epicture.Views.Core
         public ContentPageBase()
         {
             BindingContext = ViewModel;
-        }
-
-        protected override void OnAppearing()
-        {
             ViewModel.OnDisplay();
-            base.OnAppearing();
         }
     }
 }
