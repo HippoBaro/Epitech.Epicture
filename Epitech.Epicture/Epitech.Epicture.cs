@@ -17,7 +17,7 @@ namespace Epitech.Epicture
 		    {
 		        Children =
 		        {
-		            //new NavigationPage(new GaleryView<ImgurClientService>()) { Title = "Imgur" },
+		            new NavigationPage(new GaleryView<ImgurClientService>()) { Title = "Imgur" },
                     new NavigationPage(new GaleryView<FlickrClientService>()) { Title = "Flickr" }
                 }
 		    };
