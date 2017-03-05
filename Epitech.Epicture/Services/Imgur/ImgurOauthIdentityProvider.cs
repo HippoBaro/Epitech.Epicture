@@ -4,15 +4,16 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Epitech.Epicture.Model;
-using Epitech.Epicture.Services.Core;
+using Epitech.Epicture.Services.Contracts;
+using Epitech.Epicture.Services.Imgur.Core;
 using Plugin.Settings;
-using Xamarin.Forms;
 
-namespace Epitech.Epicture.Services
+namespace Epitech.Epicture.Services.Imgur
 {
-    internal class ImgurOauthIdentityProvider : ImgurBaseClient
+    internal class ImgurOauthIdentityProvider : IOAuthIdentityProvider
     {
         private const string SecretKey = "fd65e9b0baf0b8ca3dae5d6916942ebf54e04a99";
+        private HttpClient _client;
 
         public string IdentityToken
         {
@@ -38,9 +39,14 @@ namespace Epitech.Epicture.Services
             set { CrossSettings.Current.AddOrUpdateValue("UserName", value); }
         }
 
-        public Uri GetAuthorisationUrl() => new Uri($"https://api.imgur.com/oauth2/authorize?client_id={ClientId}&response_type=pin&state=authorizeXamForms");
+        public Uri GetAuthorisationUrl() => new Uri($"https://api.imgur.com/oauth2/authorize?client_id={ImgurBaseClient.ClientId}&response_type=pin&state=authorizeXamForms");
 
-        public string GetAuthenticationHeader() => string.IsNullOrEmpty(IdentityToken) ? $"Client-ID {ClientId}" : $"Bearer {IdentityToken}";
+        public string GetAuthenticationHeader() => string.IsNullOrEmpty(IdentityToken) ? $"Client-ID {ImgurBaseClient.ClientId}" : $"Bearer {IdentityToken}";
+
+        protected HttpClient Client => _client ?? (_client = new HttpClient
+        {
+            BaseAddress = new Uri("https://api.imgur.com/")
+        });
 
         public async Task Authorize(string pin)
         {
@@ -52,7 +58,7 @@ namespace Epitech.Epicture.Services
                 {
                     new KeyValuePair<string, string>("grant_type", "pin"),
                     new KeyValuePair<string, string>("client_secret", SecretKey),
-                    new KeyValuePair<string, string>("client_id", ClientId),
+                    new KeyValuePair<string, string>("client_id", ImgurBaseClient.ClientId),
                     new KeyValuePair<string, string>("pin", pin)
                 };
                 request.Content = new FormUrlEncodedContent(keyValues);
@@ -83,7 +89,7 @@ namespace Epitech.Epicture.Services
                 {
                     new KeyValuePair<string, string>("refresh_token", RefreshToken),
                     new KeyValuePair<string, string>("client_secret", SecretKey),
-                    new KeyValuePair<string, string>("client_id", ClientId),
+                    new KeyValuePair<string, string>("client_id", ImgurBaseClient.ClientId),
                     new KeyValuePair<string, string>("grant_type", "refresh_token")
                 };
                 request.Content = new FormUrlEncodedContent(keyValues);

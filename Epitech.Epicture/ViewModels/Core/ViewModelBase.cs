@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Epitech.Epicture.Properties;
+using Epitech.Epicture.Services.Contracts;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels.Core
@@ -92,6 +94,25 @@ namespace Epitech.Epicture.ViewModels.Core
             // code is waiting her, until result is passed with tcs.SetResult() in btn-Clicked
             // then proc returns the result
             return tcs.Task;
+        }
+
+        protected async Task<bool> EnsureUserIsAuthenticated(IOAuthIdentityProvider identityProvider)
+        {
+            if (!string.IsNullOrEmpty(identityProvider.IdentityToken)) return true;
+            Device.OpenUri(identityProvider.GetAuthorisationUrl());
+            var pin = await DisplayInputBox("Authentication", "Fill-in the provided PIN", "Your PIN");
+            if (string.IsNullOrWhiteSpace(pin))
+                return false;
+            try
+            {
+                await identityProvider.Authorize(pin);
+            }
+            catch (Exception e)
+            {
+                await Page.DisplayAlert("Error", e.Message, "Ok");
+                return false;
+            }
+            return true;
         }
     }
 }

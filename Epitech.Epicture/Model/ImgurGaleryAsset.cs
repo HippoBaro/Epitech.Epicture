@@ -76,10 +76,10 @@ namespace Epitech.Epicture.Model
                 ImageSource Create()
                 {
                     var link = new Uri($"http://i.imgur.com/{Id}l.{Link.Substring(Link.Length - 3, 3)}");
-                    return new UriImageSource()
-                {
+                    return new UriImageSource
+                    {
                     Uri = link,
-                    CachingEnabled = true,
+                    CachingEnabled = false,
                     CacheValidity = TimeSpan.MaxValue
                 };}
 
@@ -96,11 +96,11 @@ namespace Epitech.Epicture.Model
         {
             get
             {
-                ImageSource Create() => new UriImageSource()
+                ImageSource Create() => new UriImageSource
                 {
                     Uri = new Uri(Link),
-                    CachingEnabled = true,
-                    CacheValidity = TimeSpan.MaxValue
+                    CachingEnabled = false,
+                    CacheValidity = TimeSpan.MaxValue,
                 };
 
                 if (_contentImageFull == null)

@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Epitech.Epicture.Model.Contract;
-using Epitech.Epicture.Services;
+using Epitech.Epicture.Services.Contracts;
 using Epitech.Epicture.ViewModels.Core;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels
 {
-    internal class ImageDetailViewModel : ViewModelBase
+    internal class ImageDetailViewModel<TService> : ViewModelBase where TService : IImageClientService, new()
     {
-        private IImageAsset _imgurGaleryAsset;
+        private IImageAsset _imgurAsset;
         private bool _isStared;
         private string _assetId;
 
-        public IImageAsset ImgurGaleryAsset
+        public IImageAsset ImgurAsset
         {
-            get { return _imgurGaleryAsset; }
+            get { return _imgurAsset; }
             set
             {
-                _imgurGaleryAsset = value;
-                if (_imgurGaleryAsset == null)
+                _imgurAsset = value;
+                if (_imgurAsset == null)
                     return;
-                IsStared = _imgurGaleryAsset.Favorite;
+                IsStared = _imgurAsset.Favorite;
                 FetchComments.Execute(null);
             }
         }
@@ -36,14 +35,14 @@ namespace Epitech.Epicture.ViewModels
                 _assetId = value;
                 if (string.IsNullOrEmpty(_assetId))
                     return;
-                ImgurClientService.GetImage(_assetId).ContinueWith(task => Device.BeginInvokeOnMainThread(() => ImgurGaleryAsset = task.Result));
+                ImageClientService.GetImage(_assetId).ContinueWith(task => Device.BeginInvokeOnMainThread(() => ImgurAsset = task.Result));
                 OnPropertyChanged();
             }
         }
 
         public ObservableCollection<IAssetComment> Comments { get; set; } = new ObservableCollection<IAssetComment>();
 
-        public ImgurClientService ImgurClientService { get; set; }
+        public IImageClientService ImageClientService { get; set; } = (IImageClientService)Splat.Locator.Current.GetService(typeof(TService));
 
         public ICommand FetchComments => new Command(async () => await GetComments());
 
@@ -59,34 +58,15 @@ namespace Epitech.Epicture.ViewModels
 
         public ICommand StarCommand => new Command(async o =>
         {
-            if (string.IsNullOrEmpty(App.IdentityProvider.IdentityToken))
-            {
-                Device.OpenUri(App.IdentityProvider.GetAuthorisationUrl());
-                var pin = await DisplayInputBox("Authentication", "Fill-in the provided PIN", "Your PIN");
-                if (string.IsNullOrWhiteSpace(pin))
-                    return;
-                try
-                {
-                    await App.IdentityProvider.Authorize(pin);
-                }
-                catch (Exception e)
-                {
-                    await Page.DisplayAlert("Error", e.Message, "Ok");
-                    return;
-                }
-            }
+            if (!await EnsureUserIsAuthenticated(ImageClientService.IdentityProvider))
+                return;
             IsStared = !IsStared;
-            IsStared = await ImgurClientService.FavoriteImage(ImgurGaleryAsset) != "unfavorited";
+            IsStared = await ImageClientService.FavoriteImage(ImgurAsset) != "unfavorited";
         });
-
-        public ImageDetailViewModel()
-        {
-            ImgurClientService = new ImgurClientService();
-        }
 
         private async Task GetComments()
         {
-            var comments = await ImgurClientService.GetGalleryAssetComments(ImgurGaleryAsset);
+            var comments = await ImageClientService.GetGalleryAssetComments(ImgurAsset);
             Comments.Clear();
             foreach (var comment in comments)
                 Comments.Add(comment);

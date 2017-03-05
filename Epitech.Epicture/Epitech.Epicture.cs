@@ -1,4 +1,4 @@
-﻿using Epitech.Epicture.Services;
+﻿using Epitech.Epicture.Services.Imgur;
 using Epitech.Epicture.Views;
 using Splat;
 using Xamarin.Forms;
@@ -7,17 +7,15 @@ namespace Epitech.Epicture
 {
 	public class App : Application
 	{
-        internal static ImgurOauthIdentityProvider IdentityProvider { get; } = new ImgurOauthIdentityProvider();
-
         public App()
 		{
-            //Splat.Locator.CurrentMutable.RegisterLazySingleton();
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ImgurClientService(), typeof(ImgurClientService));
 
 		    MainPage = new TabbedPage
 		    {
 		        Children =
 		        {
-		            new NavigationPage(new GaleryView()) { Title = "Gallery" }
+		            new NavigationPage(new GaleryView<ImgurClientService>()) { Title = "Imgur" }
 		        }
 		    };
 		}

@@ -1,5 +1,4 @@
-﻿using Epitech.Epicture.ViewModels;
-using Epitech.Epicture.ViewModels.Core;
+﻿using Epitech.Epicture.ViewModels.Core;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.Views.Core

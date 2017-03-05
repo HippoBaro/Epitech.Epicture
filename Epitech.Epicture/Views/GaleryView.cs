@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Linq;
-using Epitech.Epicture.Model;
 using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.ViewModels;
 using Epitech.Epicture.Views.Core;
-using Plugin.Media;
-using Plugin.Media.Abstractions;
 using Xamarin.Forms;
+using Epitech.Epicture.Services.Contracts;
 
 namespace Epitech.Epicture.Views
 {
-    internal class GaleryView : ContentPageBase<GalleryViewModel>
+    internal class GaleryView<TService> : ContentPageBase<GalleryViewModel<TService>> where TService : IImageClientService, new()
     {
         private readonly StackLayout _stack;
         private readonly ScrollView _scrollView;
 
         public GaleryView()
         {
-            var search = new SearchBar()
+            var search = new SearchBar
             {
-                Placeholder = "Chercher",
+                Placeholder = "Search",
                 HorizontalOptions = LayoutOptions.Fill
             };
 
@@ -30,14 +27,14 @@ namespace Epitech.Epicture.Views
                 ViewModel.CurrentPage = 0;
                 ViewModel.FetchCommand.Execute(null);
             };
-            _stack = new StackLayout()
+            _stack = new StackLayout
             {
                 VerticalOptions = LayoutOptions.Fill,
                 HorizontalOptions = LayoutOptions.Fill,
                 Children = { search }
             };
 
-            _scrollView = new ScrollView()
+            _scrollView = new ScrollView
             {
                 HorizontalOptions = LayoutOptions.Fill,
                 VerticalOptions = LayoutOptions.Fill,
@@ -78,68 +75,20 @@ namespace Epitech.Epicture.Views
             _scrollView.Scrolled += ScrollView_Scrolled;
             Content = _scrollView;
 
-            this.ToolbarItems.Add(new ToolbarItem("Upload", Icon, async () =>
-            {
-                var selection = await DisplayActionSheet("Upload image", "Cancel", null, "Pick from Camera Roll", "Take photo");
-                if (string.IsNullOrEmpty(selection) || selection == "Cancel")
-                    return;
-                
-                await CrossMedia.Current.Initialize();
-
-                MediaFile file = null;
-                if (selection == "Take photo")
-                {
-                    if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-                    {
-                        await DisplayAlert("No Camera", ":( No camera available.", "OK");
-                        return;
-                    }
-                    file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-                    {
-                        SaveToAlbum = false,
-                        Directory = "ImageTemp",
-                        Name = $"{DateTime.UtcNow}.jpg",
-                        AllowCropping = false,
-                        PhotoSize = PhotoSize.Large,
-                        CompressionQuality = 92,
-                    });
-                }
-                else
-                {
-                    file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
-                    {
-                        CompressionQuality = 92,
-                        PhotoSize = PhotoSize.Large,
-                    });
-                }
-
-                if (file == null)
-                    return;
-
-                try
-                {
-                    ViewModel.UploadFileCommand.Execute(file);
-                }
-                catch (Exception e)
-                {
-                    await DisplayAlert("error", e.Message, "Ok");
-                }
-            }));
+            this.ToolbarItems.Add(new ToolbarItem("Upload", Icon, () => ViewModel.UploadFileCommand.Execute(null)));
         }
 
         private void ScrollView_Scrolled(object sender, ScrolledEventArgs args)
         {
-            foreach (RelativeLayout stackChild in _stack.Children.Where(view => view.BindingContext is ImgurGaleryAsset))
+            foreach (RelativeLayout stackChild in _stack.Children.Where(view => view.BindingContext is IImageAsset))
             {
-                Image image = stackChild.Children.First(view => view is Image) as Image;
-                void LoadAsset() => image.Source = ((ImgurGaleryAsset) stackChild.BindingContext).ContentImageMedium;
+                var image = stackChild.Children.First(view => view is Image) as Image;
+                if (image == null) continue;
+                void LoadAsset() => image.Source = ((IImageAsset) stackChild.BindingContext).ContentImageMedium;
                 if (stackChild.Bounds.IntersectsWith(new Rectangle(args.ScrollX, args.ScrollY, _scrollView.Bounds.Width, _scrollView.Bounds.Height).Inflate(0, Bounds.Height * 0.50)))
                     LoadAsset();
                 else
-                {
-                    //stackChild.HeightRequest = stackChild.Bounds.Height;
                     image.Source = null;
-                }
             }
 
             if (args.ScrollY > _scrollView.ContentSize.Height * 0.70)
@@ -151,7 +100,7 @@ namespace Epitech.Epicture.Views
             if (!asset.ShouldDisplay)
                 return null;
 
-            var image = new Image()
+            var image = new Image
             {
                 Aspect = Aspect.AspectFit,
                 BackgroundColor = Color.Accent
@@ -196,10 +145,10 @@ namespace Epitech.Epicture.Views
                 frame.WidthRequest = Bounds.Width;
             };
 
-            frame.GestureRecognizers.Add(new TapGestureRecognizer(async view =>
+            frame.GestureRecognizers.Add(new TapGestureRecognizer
             {
-                await Navigation.PushAsync(new ImageDetailView(((ImgurGaleryAsset)view.BindingContext).Id));
-            }));
+                Command = new Command(async () => await Navigation.PushAsync(new ImageDetailView<TService>(((IImageAsset)frame.BindingContext).Id)))
+            });
             return frame;
         }
     }

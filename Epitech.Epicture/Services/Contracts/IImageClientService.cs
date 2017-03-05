@@ -6,7 +6,7 @@ using Epitech.Epicture.Model.Contract;
 
 namespace Epitech.Epicture.Services.Contracts
 {
-    internal interface IImageClientService
+    internal interface IImageClientService : IBaseClient
     {
         Task<List<IImageAsset>> GetMainGalery(int page);
         Task<List<IImageAsset>> SearchMainGalery(string query, int page);

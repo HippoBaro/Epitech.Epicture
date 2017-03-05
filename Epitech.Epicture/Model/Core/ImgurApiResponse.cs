@@ -1,5 +1,4 @@
-﻿using Epitech.Epicture.Model.Core.Contract;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Epitech.Epicture.Model.Core
 {

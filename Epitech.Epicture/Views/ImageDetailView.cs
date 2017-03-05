@@ -1,4 +1,5 @@
-﻿using Epitech.Epicture.Model;
+﻿using Epitech.Epicture.Model.Contract;
+using Epitech.Epicture.Services.Contracts;
 using Epitech.Epicture.ValueConverters;
 using Epitech.Epicture.ViewModels;
 using Epitech.Epicture.Views.Core;
@@ -6,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Epitech.Epicture.Views
 {
-    internal class ImageDetailView : ContentPageBase<ImageDetailViewModel>
+    internal class ImageDetailView<TService> : ContentPageBase<ImageDetailViewModel<TService>> where TService : IImageClientService, new()
     {
         public ImageDetailView(string assetId)
         {
@@ -49,8 +50,8 @@ namespace Epitech.Epicture.Views
                 {
                     Bindings =
                     {
-                        {TextCell.TextProperty, new Binding(nameof(ImgurComment.Author))},
-                        {TextCell.DetailProperty, new Binding(nameof(ImgurComment.Comment))}
+                        {TextCell.TextProperty, new Binding(nameof(IAssetComment.Author))},
+                        {TextCell.DetailProperty, new Binding(nameof(IAssetComment.Comment))}
                     }
                 }
             };
@@ -60,7 +61,7 @@ namespace Epitech.Epicture.Views
 
             ViewModel.PropertyChanged += (sender, args) =>
             {
-                img.Source = ViewModel.ImgurGaleryAsset.ContentImageFull;
+                img.Source = ViewModel.ImgurAsset.ContentImageFull;
             };
 
             Content = list;

@@ -4,32 +4,35 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Epitech.Epicture.Services.Contracts;
 
-namespace Epitech.Epicture.Services.Core
+namespace Epitech.Epicture.Services.Imgur.Core
 {
-    internal class ImgurBaseClient
+    internal class ImgurBaseClient : IBaseClient
     {
-        private static HttpClient _client;
-        protected const string ClientId = "033ed1570301ce1";
+        private HttpClient _client;
+        public const string ClientId = "033ed1570301ce1";
 
-        protected static HttpClient Client => _client ?? (_client = new HttpClient()
+        protected HttpClient Client => _client ?? (_client = new HttpClient
         {
             BaseAddress = new Uri("https://api.imgur.com/")
         });
 
-        protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string ressource, ImgurOauthIdentityProvider auth, Func<T, TReturn> selector)
+        public IOAuthIdentityProvider IdentityProvider { get; set; } = new ImgurOauthIdentityProvider();
+
+        protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string ressource, Func<T, TReturn> selector)
         {
             try
             {
                 var response = new HttpRequestMessage(method, ressource)
                 {
-                    Headers = {Authorization = AuthenticationHeaderValue.Parse($"{auth.GetAuthenticationHeader()}")}
+                    Headers = {Authorization = AuthenticationHeaderValue.Parse($"{IdentityProvider.GetAuthenticationHeader()}")}
                 };
 
                 var res = await Client.SendAsync(response);
 
                 if (res.StatusCode == HttpStatusCode.Unauthorized)
-                    await auth.ReAuthorize();
+                    await IdentityProvider.ReAuthorize();
                 if (!res.IsSuccessStatusCode)
                     throw new Exception();
 
