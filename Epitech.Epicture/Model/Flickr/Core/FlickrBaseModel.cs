@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Epitech.Epicture.Model.Contract;
+﻿using Epitech.Epicture.Model.Contract;
 using Newtonsoft.Json;
 
 namespace Epitech.Epicture.Model.Flickr.Core

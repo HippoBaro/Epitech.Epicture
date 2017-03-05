@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Epitech.Epicture.Model;
 using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.Model.Imgur;
 using Epitech.Epicture.Model.Imgur.Core;

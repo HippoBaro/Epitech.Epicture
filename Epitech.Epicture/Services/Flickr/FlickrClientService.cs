@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.Model.Flickr;
-using Epitech.Epicture.Model.Flickr.Core;
 using Epitech.Epicture.Services.Contracts;
 using Epitech.Epicture.Services.Flickr.Core;
-using Epitech.Epicture.Services.Imgur.Core;
 using Newtonsoft.Json.Linq;
 
 namespace Epitech.Epicture.Services.Flickr

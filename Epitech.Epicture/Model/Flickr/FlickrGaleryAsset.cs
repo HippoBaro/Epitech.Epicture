@@ -4,7 +4,6 @@ using System.Linq;
 using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.Model.Flickr.Core;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 
 namespace Epitech.Epicture.Model.Flickr
