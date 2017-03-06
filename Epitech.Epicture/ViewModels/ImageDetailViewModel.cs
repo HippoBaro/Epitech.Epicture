@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Epitech.Epicture.Model.Contract;
@@ -8,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels
 {
-    internal class ImageDetailViewModel<TService> : ViewModelBase where TService : IImageClientService, new()
+    public class ImageDetailViewModel<TService> : ViewModelBase where TService : IImageClientService, new()
     {
         private IImageAsset _imgurAsset;
         private bool _isStared;
@@ -68,7 +69,7 @@ namespace Epitech.Epicture.ViewModels
         {
             var comments = await ImageClientService.GetGalleryAssetComments(ImgurAsset);
             Comments.Clear();
-            if (comments == null) return;
+            if (comments == null || !comments.Any()) return;
             foreach (var comment in comments)
                 Comments.Add(comment);
         }

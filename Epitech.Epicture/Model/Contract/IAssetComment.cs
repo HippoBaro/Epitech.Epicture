@@ -1,6 +1,6 @@
 ﻿namespace Epitech.Epicture.Model.Contract
 {
-    internal interface IAssetComment : IAsset
+    public interface IAssetComment : IAsset
     {
         string Comment { get; }
         string Author { get; }

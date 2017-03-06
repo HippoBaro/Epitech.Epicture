@@ -2,7 +2,7 @@
 
 namespace Epitech.Epicture.Model.Contract
 {
-    internal interface IImageAsset : IAsset
+    public interface IImageAsset : IAsset
     {
         bool ShouldDisplay { get; }
         bool Favorite { get; }

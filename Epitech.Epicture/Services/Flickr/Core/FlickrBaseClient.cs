@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Epitech.Epicture.Services.Flickr.Core
 {
-    internal class FlickrBaseClient : IBaseClient
+    public class FlickrBaseClient : IBaseClient
     {
         private HttpClient _client;
         internal const string ClientId = "370021b537ba69d7cae0c26ba4565ecc";

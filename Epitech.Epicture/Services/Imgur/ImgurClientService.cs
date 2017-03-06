@@ -14,7 +14,7 @@ using Epitech.Epicture.Services.Imgur.Core;
 
 namespace Epitech.Epicture.Services.Imgur
 {
-    internal class ImgurClientService : ImgurBaseClient, IImageClientService
+    public class ImgurClientService : ImgurBaseClient, IImageClientService
     {
         public Task<List<IImageAsset>> GetMainGalery(int page) => Execute<ImgurApiResponse<List<ImgurGaleryAsset>>, List<IImageAsset>>(HttpMethod.Get, $"3/gallery/hot/viral/{page}", arg => new List<IImageAsset>(arg.Data));
         public Task<List<IImageAsset>> SearchMainGalery(string query, int page) => Execute<ImgurApiResponse<List<ImgurGaleryAsset>>, List<IImageAsset>>(HttpMethod.Get, $"3/gallery/search/viral/{page}?q={Uri.EscapeDataString(query)}", arg => new List<IImageAsset>(arg.Data));

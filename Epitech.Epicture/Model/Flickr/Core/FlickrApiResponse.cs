@@ -2,7 +2,7 @@
 
 namespace Epitech.Epicture.Model.Flickr.Core
 {
-    internal class FlickrApiResponse<TInnerType>
+    public class FlickrApiResponse<TInnerType>
     {
         public TInnerType Data { get; set; }
 

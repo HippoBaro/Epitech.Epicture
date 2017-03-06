@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Epitech.Epicture.Model.Imgur
 {
-    internal class ImgurGaleryAsset : ImgurBaseModel, IImageAsset
+    public class ImgurGaleryAsset : ImgurBaseModel, IImageAsset
     {
         private WeakReference<ImageSource> _contentImageThumbmail;
         private WeakReference<ImageSource> _contentImageFull;

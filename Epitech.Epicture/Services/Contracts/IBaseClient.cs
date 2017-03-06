@@ -1,6 +1,6 @@
 ﻿namespace Epitech.Epicture.Services.Contracts
 {
-    internal interface IBaseClient
+    public interface IBaseClient
     {
         IOAuthIdentityProvider IdentityProvider { get; }
     }

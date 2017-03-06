@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels.Core
 {
-    internal class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public Page Page { get; set; }
         private bool _isFetching;

@@ -8,7 +8,7 @@ using Epitech.Epicture.Services.Contracts;
 
 namespace Epitech.Epicture.Services.Imgur.Core
 {
-    internal class ImgurBaseClient : IBaseClient
+    public class ImgurBaseClient : IBaseClient
     {
         private HttpClient _client;
         internal const string ClientId = "033ed1570301ce1";

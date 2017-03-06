@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels
 {
-    internal class GalleryViewModel<TService> : ViewModelBase where TService : IImageClientService, new()
+    public class GalleryViewModel<TService> : ViewModelBase where TService : IImageClientService, new()
     {
         private ObservableCollection<IImageAsset> _assets = new ObservableCollection<IImageAsset>();
         private string _searchQuery;
@@ -130,11 +130,11 @@ namespace Epitech.Epicture.ViewModels
                 return;
             if (Assets.Count > 500)
                 return;
+            if (CurrentPage == 0)
+                Assets.Clear();
             if (nextPage)
                 CurrentPage++;
             IsFetching = true;
-            if (CurrentPage == 0)
-                Assets.Clear();
             try
             {
                 var assets = await (string.IsNullOrEmpty(SearchQuery)

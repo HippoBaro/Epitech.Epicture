@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Epitech.Epicture.Model.Imgur
 {
-    internal class ImgurComment : ImgurBaseModel, IAssetComment
+    public class ImgurComment : ImgurBaseModel, IAssetComment
     {
         [JsonProperty("image_id")]
         public string ImageId { get; set; }

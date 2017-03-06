@@ -1,6 +1,6 @@
 ﻿namespace Epitech.Epicture.Model.Contract
 {
-    internal interface IAsset
+    public interface IAsset
     {
         string Id { get; set; }
     }

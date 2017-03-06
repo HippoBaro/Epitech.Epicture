@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Epitech.Epicture.Services.Contracts
 {
-    internal interface IOAuthIdentityProvider
+    public interface IOAuthIdentityProvider
     {
         string IdentityToken { get; }
         string UserId { get; }

@@ -12,12 +12,12 @@ using Newtonsoft.Json.Linq;
 
 namespace Epitech.Epicture.Services.Flickr
 {
-    internal class FlickrClientService : FlickrBaseClient, IImageClientService
+    public class FlickrClientService : FlickrBaseClient, IImageClientService
     {
         public Task<List<IImageAsset>> GetMainGalery(int page)
             =>
                 Execute<JObject, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.getRecent",
-                    new Dictionary<string, string> {{"page", page.ToString()}, {"extras", "url_l"}}, "photo", arg =>
+                    new Dictionary<string, string> {{"page", (++page).ToString()}, {"extras", "url_l"}}, "photo", arg =>
                     {
                         var tr = arg.Data.Children().Last().First;
                         return new List<IImageAsset>(tr.ToObject<List<FlickrGaleryAsset>>());
@@ -25,7 +25,7 @@ namespace Epitech.Epicture.Services.Flickr
 
         public Task<List<IImageAsset>> SearchMainGalery(string query, int page)
             => Execute<JObject, List<IImageAsset>>(HttpMethod.Get, "flickr.photos.search",
-                new Dictionary<string, string> {{"text", query}, {"page", page.ToString()}, {"extras", "url_l"}, {"sort", "interestingness-desc"}},
+                new Dictionary<string, string> {{"text", query}, {"page", (++page).ToString()}, {"extras", "url_l"}, {"sort", "interestingness-desc"}},
                 "photo", arg =>
                 {
                     var tr = arg.Data.Children().Last().First;
@@ -36,6 +36,8 @@ namespace Epitech.Epicture.Services.Flickr
             => Execute<JObject, List<IAssetComment>>(HttpMethod.Get, "flickr.photos.comments.getList",
                 new Dictionary<string, string> {{"photo_id", asset.Id}}, "comment", arg =>
                 {
+                    if (arg.Data.Last.Count() == 1)
+                        return null;
                     var ret = arg.Data.Last.First.ToObject<List<FlickrComment>>();
                     return new List<IAssetComment>(ret);
                 });
