@@ -40,7 +40,11 @@ namespace Epitech.Epicture.ViewModels
             }
         }
 
-        public ICommand FetchCommand => new Command(async () => await Fetch());
+        public ICommand FetchCommand => new Command(() =>
+        {
+            CurrentPage = 0;
+            Device.BeginInvokeOnMainThread(async () => await Fetch());
+        });
 
         public int CurrentPage
         {
@@ -128,15 +132,26 @@ namespace Epitech.Epicture.ViewModels
             IsFetching = true;
             if (CurrentPage == 0)
                 Assets.Clear();
-            
-            var assets = await (string.IsNullOrEmpty(SearchQuery) ? ImageClientService.GetMainGalery(CurrentPage) : ImageClientService.SearchMainGalery(SearchQuery, CurrentPage));
-            
-            foreach (var asset in assets)
+            try
             {
-                if (asset.ShouldDisplay)
-                    Assets.Add(asset);
+                var assets = await (string.IsNullOrEmpty(SearchQuery)
+                    ? ImageClientService.GetMainGalery(CurrentPage)
+                    : ImageClientService.SearchMainGalery(SearchQuery, CurrentPage));
+
+                foreach (var asset in assets)
+                {
+                    if (asset.ShouldDisplay)
+                        Assets.Add(asset);
+                }
             }
-            IsFetching = false;
+            catch (Exception e)
+            {
+                await Page.DisplayAlert("Error", e.Message, "Dismiss");
+            }
+            finally
+            {
+                IsFetching = false;
+            }
         }
     }
 }

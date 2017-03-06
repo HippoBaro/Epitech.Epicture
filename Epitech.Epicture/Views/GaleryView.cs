@@ -21,12 +21,6 @@ namespace Epitech.Epicture.Views
                 HorizontalOptions = LayoutOptions.Fill
             };
 
-            search.SearchButtonPressed += (sender, args) =>
-            {
-                ViewModel.SearchQuery = search.Text;
-                ViewModel.CurrentPage = 0;
-                ViewModel.FetchCommand.Execute(null);
-            };
             _stack = new StackLayout
             {
                 VerticalOptions = LayoutOptions.Fill,
@@ -74,6 +68,9 @@ namespace Epitech.Epicture.Views
 
             _scrollView.Scrolled += ScrollView_Scrolled;
             Content = _scrollView;
+
+            search.SetBinding(SearchBar.TextProperty, new Binding(nameof(ViewModel.SearchQuery), BindingMode.TwoWay));
+            search.SetBinding(SearchBar.SearchCommandProperty, new Binding(nameof(ViewModel.FetchCommand)));
 
             ToolbarItems.Add(new ToolbarItem("Upload", Icon, () => ViewModel.UploadFileCommand.Execute(null)));
         }

@@ -15,6 +15,7 @@ namespace Epitech.Epicture
 
             MainPage = new TabbedPage
 		    {
+                Title = "Epitech Epicture",
 		        Children =
 		        {
 		            new NavigationPage(new GaleryView<ImgurClientService>()) { Title = "Imgur" },
