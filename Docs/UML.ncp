@@ -1,0 +1,1379 @@
+<Project>
+  <Name>Untitled</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Epitech.Epicture.dll</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Interface">
+        <Name>IBaseClient</Name>
+        <Access>Internal</Access>
+        <Location left="648" top="2440" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">IOAuthIdentityProvider IdentityProvider { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IImageClientService</Name>
+        <Access>Internal</Access>
+        <Location left="436" top="2440" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">Task&lt;List&lt;IImageAsset&gt;&gt; GetMainGalery(Int32 page)</Member>
+        <Member type="Method">Task&lt;List&lt;IImageAsset&gt;&gt; SearchMainGalery(String query, Int32 page)</Member>
+        <Member type="Method">Task&lt;List&lt;IAssetComment&gt;&gt; GetGalleryAssetComments(IImageAsset asset)</Member>
+        <Member type="Method">Task&lt;String&gt; FavoriteImage(IImageAsset asset)</Member>
+        <Member type="Method">Task&lt;IImageAsset&gt; GetImage(String assetId)</Member>
+        <Member type="Method">Task UploadImage(Stream image)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IOAuthIdentityProvider</Name>
+        <Access>Internal</Access>
+        <Location left="224" top="2440" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">String IdentityToken { get; }</Member>
+        <Member type="Property">String UserId { get; }</Member>
+        <Member type="Property">String UserName { get; }</Member>
+        <Member type="Property">Boolean NeedUserInput { get; }</Member>
+        <Member type="Method">Task&lt;Uri&gt; GetAuthorisationUrl()</Member>
+        <Member type="Method">String GetAuthenticationHeader()</Member>
+        <Member type="Method">Task Authorize(String pin)</Member>
+        <Member type="Method">Task ReAuthorize()</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IAssetComment</Name>
+        <Access>Internal</Access>
+        <Location left="12" top="2440" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">String Comment { get; }</Member>
+        <Member type="Property">String Author { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IImageAsset</Name>
+        <Access>Internal</Access>
+        <Location left="2980" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">Boolean ShouldDisplay { get; }</Member>
+        <Member type="Property">Boolean Favorite { get; }</Member>
+        <Member type="Property">String Title { get; }</Member>
+        <Member type="Property">Double Ratio { get; }</Member>
+        <Member type="Property">ImageSource ContentImageMedium { get; }</Member>
+        <Member type="Property">ImageSource ContentImageFull { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IAsset</Name>
+        <Access>Internal</Access>
+        <Location left="2768" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">String Id { get; set; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>App</Name>
+        <Access>Public</Access>
+        <Location left="2556" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public App()</Member>
+        <Member type="Method">protected virtual Void OnStart()</Member>
+        <Member type="Method">protected virtual Void OnSleep()</Member>
+        <Member type="Method">protected virtual Void OnResume()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GaleryView&lt;TService&gt;</Name>
+        <Access>Internal</Access>
+        <Location left="2344" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private readonly StackLayout _stack</Member>
+        <Member type="Field">private readonly ScrollView _scrollView</Member>
+        <Member type="Constructor">public GaleryView()</Member>
+        <Member type="Method">private Void ScrollView_Scrolled(Object sender, ScrolledEventArgs args)</Member>
+        <Member type="Method">private RelativeLayout GetImage(IImageAsset asset)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImageDetailView&lt;TService&gt;</Name>
+        <Access>Internal</Access>
+        <Location left="2132" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public ImageDetailView(String assetId)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ContentPageBase&lt;TViewModel&gt;</Name>
+        <Access>Internal</Access>
+        <Location left="1920" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private TViewModel _viewModel</Member>
+        <Member type="Property">protected TViewModel ViewModel { get; }</Member>
+        <Member type="Constructor">public ContentPageBase()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RichImage</Name>
+        <Access>Public</Access>
+        <Location left="1708" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public BindableProperty RichSourceProperty</Member>
+        <Member type="Property">public Uri RichSource { get; set; }</Member>
+        <Member type="Constructor">public RichImage()</Member>
+        <Member type="Constructor">static RichImage()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GalleryViewModel&lt;TService&gt;</Name>
+        <Access>Internal</Access>
+        <Location left="1496" top="2092" />
+        <Size width="162" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private ObservableCollection&lt;IImageAsset&gt; _assets</Member>
+        <Member type="Field">private String _searchQuery</Member>
+        <Member type="Field">private Int32 _currentPage</Member>
+        <Member type="Property">public IImageClientService ImageClientService { get; set; }</Member>
+        <Member type="Property">public ObservableCollection&lt;IImageAsset&gt; Assets { get; set; }</Member>
+        <Member type="Property">public String SearchQuery { get; set; }</Member>
+        <Member type="Property">public ICommand FetchCommand { get; }</Member>
+        <Member type="Property">public Int32 CurrentPage { get; set; }</Member>
+        <Member type="Property">public ICommand UploadFileCommand { get; }</Member>
+        <Member type="Constructor">public GalleryViewModel()</Member>
+        <Member type="Method">public override Void OnDisplay()</Member>
+        <Member type="Method">private Task UploadFile(MediaFile file)</Member>
+        <Member type="Method">private Task Fetch()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImageDetailViewModel&lt;TService&gt;</Name>
+        <Access>Internal</Access>
+        <Location left="1284" top="2092" />
+        <Size width="162" height="281" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private IImageAsset _imgurAsset</Member>
+        <Member type="Field">private Boolean _isStared</Member>
+        <Member type="Field">private String _assetId</Member>
+        <Member type="Property">public IImageAsset ImgurAsset { get; set; }</Member>
+        <Member type="Property">public String AssetId { get; set; }</Member>
+        <Member type="Property">public ObservableCollection&lt;IAssetComment&gt; Comments { get; set; }</Member>
+        <Member type="Property">public IImageClientService ImageClientService { get; set; }</Member>
+        <Member type="Property">public ICommand FetchComments { get; }</Member>
+        <Member type="Property">public Boolean IsStared { get; set; }</Member>
+        <Member type="Property">public ICommand StarCommand { get; }</Member>
+        <Member type="Constructor">public ImageDetailViewModel()</Member>
+        <Member type="Method">private Task GetComments()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ViewModelBase</Name>
+        <Access>Internal</Access>
+        <Location left="1072" top="2092" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private Boolean _isFetching</Member>
+        <Member type="Property">public Page Page { get; set; }</Member>
+        <Member type="Property">public Boolean IsFetching { get; set; }</Member>
+        <Member type="Event">public event PropertyChangedEventHandler PropertyChanged</Member>
+        <Member type="Constructor">public ViewModelBase()</Member>
+        <Member type="Method">protected virtual Void OnPropertyChanged(String propertyName)</Member>
+        <Member type="Method">public virtual Void OnDisplay()</Member>
+        <Member type="Method">public Task&lt;String&gt; DisplayInputBox(String title, String inputDescription, String placeholder)</Member>
+        <Member type="Method">protected virtual Task&lt;Boolean&gt; EnsureUserIsAuthenticated(IOAuthIdentityProvider identityProvider)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>StartedToAssetValueConverter</Name>
+        <Access>Internal</Access>
+        <Location left="860" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public StartedToAssetValueConverter()</Member>
+        <Member type="Method">public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)</Member>
+        <Member type="Method">public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImgurClientService</Name>
+        <Access>Internal</Access>
+        <Location left="648" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public ImgurClientService()</Member>
+        <Member type="Method">public Task&lt;List&lt;IImageAsset&gt;&gt; GetMainGalery(Int32 page)</Member>
+        <Member type="Method">public Task&lt;List&lt;IImageAsset&gt;&gt; SearchMainGalery(String query, Int32 page)</Member>
+        <Member type="Method">public Task&lt;List&lt;IAssetComment&gt;&gt; GetGalleryAssetComments(IImageAsset asset)</Member>
+        <Member type="Method">public Task&lt;String&gt; FavoriteImage(IImageAsset asset)</Member>
+        <Member type="Method">public Task&lt;IImageAsset&gt; GetImage(String assetId)</Member>
+        <Member type="Method">public Task UploadImage(Stream image)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImgurOauthIdentityProvider</Name>
+        <Access>Internal</Access>
+        <Location left="436" top="2092" />
+        <Size width="162" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private HttpClient _client</Member>
+        <Member type="Field">private const String SecretKey = fd65e9b0baf0b8ca3dae5d6916942ebf54e04a99</Member>
+        <Member type="Property">public String IdentityToken { get; set; }</Member>
+        <Member type="Property">public String RefreshToken { get; set; }</Member>
+        <Member type="Property">public String UserId { get; set; }</Member>
+        <Member type="Property">public String UserName { get; set; }</Member>
+        <Member type="Property">public Boolean NeedUserInput { get; }</Member>
+        <Member type="Property">protected HttpClient Client { get; }</Member>
+        <Member type="Constructor">public ImgurOauthIdentityProvider(Boolean needUserInput)</Member>
+        <Member type="Method">public Task&lt;Uri&gt; GetAuthorisationUrl()</Member>
+        <Member type="Method">public String GetAuthenticationHeader()</Member>
+        <Member type="Method">public Task Authorize(String pin)</Member>
+        <Member type="Method">public Task ReAuthorize()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImgurBaseClient</Name>
+        <Access>Internal</Access>
+        <Location left="224" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private HttpClient _client</Member>
+        <Member type="Field">public const String ClientId = 033ed1570301ce1</Member>
+        <Member type="Property">protected HttpClient Client { get; }</Member>
+        <Member type="Property">public IOAuthIdentityProvider IdentityProvider { get; }</Member>
+        <Member type="Constructor">public ImgurBaseClient()</Member>
+        <Member type="Method">protected Task&lt;TReturn&gt; Execute(HttpMethod method, String ressource, Func&lt;T, TReturn&gt; selector)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrClientService</Name>
+        <Access>Internal</Access>
+        <Location left="12" top="2092" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public FlickrClientService()</Member>
+        <Member type="Method">public Task&lt;List&lt;IImageAsset&gt;&gt; GetMainGalery(Int32 page)</Member>
+        <Member type="Method">public Task&lt;List&lt;IImageAsset&gt;&gt; SearchMainGalery(String query, Int32 page)</Member>
+        <Member type="Method">public Task&lt;List&lt;IAssetComment&gt;&gt; GetGalleryAssetComments(IImageAsset asset)</Member>
+        <Member type="Method">public Task&lt;String&gt; FavoriteImage(IImageAsset asset)</Member>
+        <Member type="Method">public Task&lt;IImageAsset&gt; GetImage(String assetId)</Member>
+        <Member type="Method">public Task UploadImage(Stream image)</Member>
+        <Member type="Method">private Task&lt;List&lt;FlickrAssetSource&gt;&gt; GetImageSizes(FlickrGaleryAsset asset)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrOauthIdentityProvider</Name>
+        <Access>Internal</Access>
+        <Location left="2980" top="1727" />
+        <Size width="162" height="315" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private HttpClient _client</Member>
+        <Member type="Field">public const String SecretKey = bf6d7458ad3b06e4</Member>
+        <Member type="Property">public String IdentityToken { get; set; }</Member>
+        <Member type="Property">public String UserId { get; set; }</Member>
+        <Member type="Property">public String UserName { get; set; }</Member>
+        <Member type="Property">public Boolean NeedUserInput { get; }</Member>
+        <Member type="Property">private String Frob { get; set; }</Member>
+        <Member type="Property">protected HttpClient Client { get; }</Member>
+        <Member type="Constructor">public FlickrOauthIdentityProvider(Boolean needUserInput)</Member>
+        <Member type="Method">public Task&lt;Uri&gt; GetAuthorisationUrl()</Member>
+        <Member type="Method">public String GetAuthenticationHeader()</Member>
+        <Member type="Method">public Task Authorize(String pin)</Member>
+        <Member type="Method">public Task ReAuthorize()</Member>
+        <Member type="Method">public static String Md5(String value)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrBaseClient</Name>
+        <Access>Internal</Access>
+        <Location left="2768" top="1727" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private HttpClient _client</Member>
+        <Member type="Field">public const String ClientId = 370021b537ba69d7cae0c26ba4565ecc</Member>
+        <Member type="Property">protected HttpClient Client { get; }</Member>
+        <Member type="Property">public IOAuthIdentityProvider IdentityProvider { get; }</Member>
+        <Member type="Constructor">public FlickrBaseClient()</Member>
+        <Member type="Method">protected Task&lt;TReturn&gt; Execute(HttpMethod method, String logicMethod, Dictionary&lt;String, String&gt; param, String mappingName, Func&lt;FlickrApiResponse&lt;T&gt;, TReturn&gt; selector)</Member>
+        <Member type="Method">protected Task&lt;TReturn&gt; Execute(HttpMethod method, String logicMethod, Dictionary&lt;String, String&gt; param, String mappingName, Func&lt;FlickrApiResponse&lt;T&gt;, Task&lt;TReturn&gt;&gt; selector)</Member>
+        <Member type="Method">protected Task&lt;TReturn&gt; ExecuteNoReturn(HttpMethod method, String logicMethod, Dictionary&lt;String, String&gt; param, String mappingName, Func&lt;FlickrApiResponse&lt;Object&gt;, TReturn&gt; selector)</Member>
+        <Member type="Method">protected String GetMethodDescription(String method, Dictionary&lt;String, String&gt; param)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CanBeNullAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2556" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public CanBeNullAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NotNullAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2344" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public NotNullAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ItemNotNullAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2132" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public ItemNotNullAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ItemCanBeNullAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1920" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public ItemCanBeNullAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>StringFormatMethodAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1708" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String FormatParameterName { get; private set; }</Member>
+        <Member type="Constructor">public StringFormatMethodAttribute(String formatParameterName)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ValueProviderAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1496" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Name { get; private set; }</Member>
+        <Member type="Constructor">public ValueProviderAttribute(String name)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>InvokerParameterNameAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1284" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public InvokerParameterNameAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NotifyPropertyChangedInvocatorAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1072" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String ParameterName { get; private set; }</Member>
+        <Member type="Constructor">public NotifyPropertyChangedInvocatorAttribute()</Member>
+        <Member type="Constructor">public NotifyPropertyChangedInvocatorAttribute(String parameterName)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ContractAnnotationAttribute</Name>
+        <Access>Public</Access>
+        <Location left="860" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Contract { get; private set; }</Member>
+        <Member type="Property">public Boolean ForceFullStates { get; private set; }</Member>
+        <Member type="Constructor">public ContractAnnotationAttribute(String contract)</Member>
+        <Member type="Constructor">public ContractAnnotationAttribute(String contract, Boolean forceFullStates)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LocalizationRequiredAttribute</Name>
+        <Access>Public</Access>
+        <Location left="648" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Boolean Required { get; private set; }</Member>
+        <Member type="Constructor">public LocalizationRequiredAttribute()</Member>
+        <Member type="Constructor">public LocalizationRequiredAttribute(Boolean required)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CannotApplyEqualityOperatorAttribute</Name>
+        <Access>Public</Access>
+        <Location left="436" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public CannotApplyEqualityOperatorAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BaseTypeRequiredAttribute</Name>
+        <Access>Public</Access>
+        <Location left="224" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Type BaseType { get; private set; }</Member>
+        <Member type="Constructor">public BaseTypeRequiredAttribute(Type baseType)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UsedImplicitlyAttribute</Name>
+        <Access>Public</Access>
+        <Location left="12" top="1727" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public ImplicitUseKindFlags UseKindFlags { get; private set; }</Member>
+        <Member type="Property">public ImplicitUseTargetFlags TargetFlags { get; private set; }</Member>
+        <Member type="Constructor">public UsedImplicitlyAttribute()</Member>
+        <Member type="Constructor">public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags)</Member>
+        <Member type="Constructor">public UsedImplicitlyAttribute(ImplicitUseTargetFlags targetFlags)</Member>
+        <Member type="Constructor">public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MeansImplicitUseAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2980" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public ImplicitUseKindFlags UseKindFlags { get; private set; }</Member>
+        <Member type="Property">public ImplicitUseTargetFlags TargetFlags { get; private set; }</Member>
+        <Member type="Constructor">public MeansImplicitUseAttribute()</Member>
+        <Member type="Constructor">public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags)</Member>
+        <Member type="Constructor">public MeansImplicitUseAttribute(ImplicitUseTargetFlags targetFlags)</Member>
+        <Member type="Constructor">public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PublicAPIAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2768" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Comment { get; private set; }</Member>
+        <Member type="Constructor">public PublicAPIAttribute()</Member>
+        <Member type="Constructor">public PublicAPIAttribute(String comment)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>InstantHandleAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2556" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public InstantHandleAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PureAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2344" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public PureAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MustUseReturnValueAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2132" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Justification { get; private set; }</Member>
+        <Member type="Constructor">public MustUseReturnValueAttribute()</Member>
+        <Member type="Constructor">public MustUseReturnValueAttribute(String justification)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ProvidesContextAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1920" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public ProvidesContextAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PathReferenceAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1708" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String BasePath { get; private set; }</Member>
+        <Member type="Constructor">public PathReferenceAttribute()</Member>
+        <Member type="Constructor">public PathReferenceAttribute(String basePath)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SourceTemplateAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1496" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public SourceTemplateAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MacroAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1284" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Expression { get; set; }</Member>
+        <Member type="Property">public Int32 Editable { get; set; }</Member>
+        <Member type="Property">public String Target { get; set; }</Member>
+        <Member type="Constructor">public MacroAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcAreaMasterLocationFormatAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1072" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Format { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcAreaMasterLocationFormatAttribute(String format)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcAreaPartialViewLocationFormatAttribute</Name>
+        <Access>Public</Access>
+        <Location left="860" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Format { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcAreaPartialViewLocationFormatAttribute(String format)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcAreaViewLocationFormatAttribute</Name>
+        <Access>Public</Access>
+        <Location left="648" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Format { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcAreaViewLocationFormatAttribute(String format)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcMasterLocationFormatAttribute</Name>
+        <Access>Public</Access>
+        <Location left="436" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Format { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcMasterLocationFormatAttribute(String format)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcPartialViewLocationFormatAttribute</Name>
+        <Access>Public</Access>
+        <Location left="224" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Format { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcPartialViewLocationFormatAttribute(String format)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcViewLocationFormatAttribute</Name>
+        <Access>Public</Access>
+        <Location left="12" top="1461" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Format { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcViewLocationFormatAttribute(String format)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcActionAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2980" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String AnonymousProperty { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcActionAttribute()</Member>
+        <Member type="Constructor">public AspMvcActionAttribute(String anonymousProperty)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcAreaAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2768" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String AnonymousProperty { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcAreaAttribute()</Member>
+        <Member type="Constructor">public AspMvcAreaAttribute(String anonymousProperty)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcControllerAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2556" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String AnonymousProperty { get; private set; }</Member>
+        <Member type="Constructor">public AspMvcControllerAttribute()</Member>
+        <Member type="Constructor">public AspMvcControllerAttribute(String anonymousProperty)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcMasterAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2344" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcMasterAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcModelTypeAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2132" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcModelTypeAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcPartialViewAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1920" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcPartialViewAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcSuppressViewErrorAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1708" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcSuppressViewErrorAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcDisplayTemplateAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1496" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcDisplayTemplateAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcEditorTemplateAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1284" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcEditorTemplateAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcTemplateAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1072" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcTemplateAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcViewAttribute</Name>
+        <Access>Public</Access>
+        <Location left="860" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcViewAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcViewComponentAttribute</Name>
+        <Access>Public</Access>
+        <Location left="648" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcViewComponentAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcViewComponentViewAttribute</Name>
+        <Access>Public</Access>
+        <Location left="436" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcViewComponentViewAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMvcActionSelectorAttribute</Name>
+        <Access>Public</Access>
+        <Location left="224" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMvcActionSelectorAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>HtmlElementAttributesAttribute</Name>
+        <Access>Public</Access>
+        <Location left="12" top="1195" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Name { get; private set; }</Member>
+        <Member type="Constructor">public HtmlElementAttributesAttribute()</Member>
+        <Member type="Constructor">public HtmlElementAttributesAttribute(String name)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>HtmlAttributeValueAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2980" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Name { get; private set; }</Member>
+        <Member type="Constructor">public HtmlAttributeValueAttribute(String name)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorSectionAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2768" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public RazorSectionAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CollectionAccessAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2556" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public CollectionAccessType CollectionAccessType { get; private set; }</Member>
+        <Member type="Constructor">public CollectionAccessAttribute(CollectionAccessType collectionAccessType)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AssertionMethodAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2344" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AssertionMethodAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AssertionConditionAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2132" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public AssertionConditionType ConditionType { get; private set; }</Member>
+        <Member type="Constructor">public AssertionConditionAttribute(AssertionConditionType conditionType)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>TerminatesProgramAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1920" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public TerminatesProgramAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LinqTunnelAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1708" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public LinqTunnelAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NoEnumerationAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1496" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public NoEnumerationAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RegexPatternAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1284" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public RegexPatternAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NoReorderAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1072" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public NoReorderAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>XamlItemsControlAttribute</Name>
+        <Access>Public</Access>
+        <Location left="860" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public XamlItemsControlAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>XamlItemBindingOfItemsControlAttribute</Name>
+        <Access>Public</Access>
+        <Location left="648" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public XamlItemBindingOfItemsControlAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspChildControlTypeAttribute</Name>
+        <Access>Public</Access>
+        <Location left="436" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String TagName { get; private set; }</Member>
+        <Member type="Property">public Type ControlType { get; private set; }</Member>
+        <Member type="Constructor">public AspChildControlTypeAttribute(String tagName, Type controlType)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspDataFieldAttribute</Name>
+        <Access>Public</Access>
+        <Location left="224" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspDataFieldAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspDataFieldsAttribute</Name>
+        <Access>Public</Access>
+        <Location left="12" top="929" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspDataFieldsAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspMethodPropertyAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2980" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AspMethodPropertyAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspRequiredAttributeAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2768" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Attribute { get; private set; }</Member>
+        <Member type="Constructor">public AspRequiredAttributeAttribute(String attribute)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AspTypePropertyAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2556" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Boolean CreateConstructorReferences { get; private set; }</Member>
+        <Member type="Constructor">public AspTypePropertyAttribute(Boolean createConstructorReferences)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorImportNamespaceAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2344" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Name { get; private set; }</Member>
+        <Member type="Constructor">public RazorImportNamespaceAttribute(String name)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorInjectionAttribute</Name>
+        <Access>Public</Access>
+        <Location left="2132" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Type { get; private set; }</Member>
+        <Member type="Property">public String FieldName { get; private set; }</Member>
+        <Member type="Constructor">public RazorInjectionAttribute(String type, String fieldName)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorDirectiveAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1920" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Directive { get; private set; }</Member>
+        <Member type="Constructor">public RazorDirectiveAttribute(String directive)</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorHelperCommonAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1708" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public RazorHelperCommonAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorLayoutAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1496" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public RazorLayoutAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorWriteLiteralMethodAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1284" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public RazorWriteLiteralMethodAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorWriteMethodAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1072" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public RazorWriteMethodAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RazorWriteMethodParameterAttribute</Name>
+        <Access>Public</Access>
+        <Location left="860" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public RazorWriteMethodParameterAttribute()</Member>
+        <Modifier>Sealed</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImgurAuthorisation</Name>
+        <Access>Internal</Access>
+        <Location left="648" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String AccessToken { get; set; }</Member>
+        <Member type="Property">public Int32 ExpiresIn { get; set; }</Member>
+        <Member type="Property">public String TokenType { get; set; }</Member>
+        <Member type="Property">public Object Scope { get; set; }</Member>
+        <Member type="Property">public String RefreshToken { get; set; }</Member>
+        <Member type="Property">public String AccountId { get; set; }</Member>
+        <Member type="Property">public String AccountUsername { get; set; }</Member>
+        <Member type="Constructor">public ImgurAuthorisation()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImgurComment</Name>
+        <Access>Internal</Access>
+        <Location left="436" top="394" />
+        <Size width="162" height="349" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String ImageId { get; set; }</Member>
+        <Member type="Property">public String Comment { get; set; }</Member>
+        <Member type="Property">public String Author { get; set; }</Member>
+        <Member type="Property">public Int32 AuthorId { get; set; }</Member>
+        <Member type="Property">public Boolean OnAlbum { get; set; }</Member>
+        <Member type="Property">public Object AlbumCover { get; set; }</Member>
+        <Member type="Property">public Int32 Ups { get; set; }</Member>
+        <Member type="Property">public Int32 Downs { get; set; }</Member>
+        <Member type="Property">public Int32 Points { get; set; }</Member>
+        <Member type="Property">public Int32 Timestamp { get; set; }</Member>
+        <Member type="Property">public Int32 ParentId { get; set; }</Member>
+        <Member type="Property">public Boolean Deleted { get; set; }</Member>
+        <Member type="Property">public Object Vote { get; set; }</Member>
+        <Member type="Property">public String Platform { get; set; }</Member>
+        <Member type="Property">public List&lt;ImgurComment&gt; Childrens { get; set; }</Member>
+        <Member type="Constructor">public ImgurComment()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImgurGaleryAsset</Name>
+        <Access>Internal</Access>
+        <Location left="224" top="394" />
+        <Size width="162" height="485" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private WeakReference&lt;ImageSource&gt; _contentImageThumbmail</Member>
+        <Member type="Field">private WeakReference&lt;ImageSource&gt; _contentImageFull</Member>
+        <Member type="Property">public String Title { get; set; }</Member>
+        <Member type="Property">public Object Description { get; set; }</Member>
+        <Member type="Property">public Int32 Timestamp { get; set; }</Member>
+        <Member type="Property">public String Type { get; set; }</Member>
+        <Member type="Property">public Boolean IsAnimated { get; set; }</Member>
+        <Member type="Property">public Int32 Width { get; set; }</Member>
+        <Member type="Property">public Int32 Height { get; set; }</Member>
+        <Member type="Property">public Int32 Size { get; set; }</Member>
+        <Member type="Property">public Int32 Views { get; set; }</Member>
+        <Member type="Property">public Boolean IsAd { get; set; }</Member>
+        <Member type="Property">public Boolean InGallery { get; set; }</Member>
+        <Member type="Property">public Boolean Favorite { get; set; }</Member>
+        <Member type="Property">public String Link { get; set; }</Member>
+        <Member type="Property">public Int32 CommentCount { get; set; }</Member>
+        <Member type="Property">public Boolean IsAlbum { get; set; }</Member>
+        <Member type="Property">public Double Ratio { get; }</Member>
+        <Member type="Property">public Boolean ShouldDisplay { get; }</Member>
+        <Member type="Property">public ImageSource ContentImageMedium { get; }</Member>
+        <Member type="Property">public ImageSource ContentImageFull { get; }</Member>
+        <Member type="Constructor">public ImgurGaleryAsset()</Member>
+        <Member type="Method">private ImageSource CreateMedium()</Member>
+        <Member type="Method">private ImageSource CreateFull()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImgurApiResponse&lt;TInnerType&gt;</Name>
+        <Access>Internal</Access>
+        <Location left="12" top="394" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public TInnerType Data { get; set; }</Member>
+        <Member type="Property">public Boolean Success { get; set; }</Member>
+        <Member type="Constructor">public ImgurApiResponse()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ImgurBaseModel</Name>
+        <Access>Internal</Access>
+        <Location left="2980" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Id { get; set; }</Member>
+        <Member type="Constructor">public ImgurBaseModel()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrAssetSource</Name>
+        <Access>Internal</Access>
+        <Location left="2768" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Label { get; set; }</Member>
+        <Member type="Property">public Int32 Width { get; set; }</Member>
+        <Member type="Property">public Int32 Height { get; set; }</Member>
+        <Member type="Property">public String Source { get; set; }</Member>
+        <Member type="Property">public String Url { get; set; }</Member>
+        <Member type="Property">public String Media { get; set; }</Member>
+        <Member type="Constructor">public FlickrAssetSource()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrComment</Name>
+        <Access>Internal</Access>
+        <Location left="2556" top="12" />
+        <Size width="162" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Int32 AuthorIsDeleted { get; set; }</Member>
+        <Member type="Property">public String Author { get; set; }</Member>
+        <Member type="Property">public String Iconserver { get; set; }</Member>
+        <Member type="Property">public Int32 Iconfarm { get; set; }</Member>
+        <Member type="Property">public String Datecreate { get; set; }</Member>
+        <Member type="Property">public String Permalink { get; set; }</Member>
+        <Member type="Property">public String PathAlias { get; set; }</Member>
+        <Member type="Property">public String Realname { get; set; }</Member>
+        <Member type="Property">public String Comment { get; set; }</Member>
+        <Member type="Constructor">public FlickrComment()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrGaleryAsset</Name>
+        <Access>Internal</Access>
+        <Location left="2344" top="12" />
+        <Size width="162" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private WeakReference&lt;ImageSource&gt; _contentImageThumbmail</Member>
+        <Member type="Field">private WeakReference&lt;ImageSource&gt; _contentImageFull</Member>
+        <Member type="Property">public List&lt;FlickrAssetSource&gt; Sources { get; set; }</Member>
+        <Member type="Property">public String Title { get; set; }</Member>
+        <Member type="Property">public String LinkThumbmail { get; set; }</Member>
+        <Member type="Property">public Int32 Height { get; set; }</Member>
+        <Member type="Property">public Int32 Width { get; set; }</Member>
+        <Member type="Property">public Boolean ShouldDisplay { get; }</Member>
+        <Member type="Property">public Boolean Favorite { get; set; }</Member>
+        <Member type="Property">public Double Ratio { get; }</Member>
+        <Member type="Property">public ImageSource ContentImageMedium { get; }</Member>
+        <Member type="Property">public ImageSource ContentImageFull { get; }</Member>
+        <Member type="Constructor">public FlickrGaleryAsset()</Member>
+        <Member type="Method">private ImageSource CreateMedium()</Member>
+        <Member type="Method">private ImageSource CreateFull()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PersonConverter</Name>
+        <Access>Public</Access>
+        <Location left="2132" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public PersonConverter()</Member>
+        <Member type="Method">public override Void WriteJson(JsonWriter writer, Object value, JsonSerializer serializer)</Member>
+        <Member type="Method">public override Object ReadJson(JsonReader reader, Type objectType, Object existingValue, JsonSerializer serializer)</Member>
+        <Member type="Method">public override Boolean CanConvert(Type objectType)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrAuthorisation</Name>
+        <Access>Internal</Access>
+        <Location left="1920" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Content Token { get; set; }</Member>
+        <Member type="Property">public Content Perms { get; set; }</Member>
+        <Member type="Property">public User AuthenticatedUser { get; set; }</Member>
+        <Member type="Constructor">public FlickrAuthorisation()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrApiResponse&lt;TInnerType&gt;</Name>
+        <Access>Internal</Access>
+        <Location left="1708" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public TInnerType Data { get; set; }</Member>
+        <Member type="Property">public String Success { get; set; }</Member>
+        <Member type="Constructor">public FlickrApiResponse()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlickrBaseModel</Name>
+        <Access>Internal</Access>
+        <Location left="1496" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Id { get; set; }</Member>
+        <Member type="Constructor">public FlickrBaseModel()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Settings</Name>
+        <Access>Public</Access>
+        <Location left="1284" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String SettingsDefault</Member>
+        <Member type="Field">private const String SettingsKey = settings_key</Member>
+        <Member type="Property">private static ISettings AppSettings { get; }</Member>
+        <Member type="Property">public static String GeneralSettings { get; set; }</Member>
+        <Member type="Constructor">static Settings()</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Content</Name>
+        <Access>Public</Access>
+        <Location left="1072" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Value { get; set; }</Member>
+        <Member type="Constructor">public Content()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>User</Name>
+        <Access>Public</Access>
+        <Location left="860" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public String Nsid { get; set; }</Member>
+        <Member type="Property">public String Username { get; set; }</Member>
+        <Member type="Property">public String Fullname { get; set; }</Member>
+        <Member type="Constructor">public User()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>ImplicitUseKindFlags</Name>
+        <Access>Public</Access>
+        <Location left="648" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>Default = 7</Value>
+        <Value>Access = 1</Value>
+        <Value>Assign = 2</Value>
+        <Value>InstantiatedWithFixedConstructorSignature = 4</Value>
+        <Value>InstantiatedNoFixedConstructorSignature = 8</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>ImplicitUseTargetFlags</Name>
+        <Access>Public</Access>
+        <Location left="436" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>Default = 1</Value>
+        <Value>Itself = 1</Value>
+        <Value>Members = 2</Value>
+        <Value>WithMembers = 3</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>CollectionAccessType</Name>
+        <Access>Public</Access>
+        <Location left="224" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>None = 0</Value>
+        <Value>Read = 1</Value>
+        <Value>ModifyExistingContent = 2</Value>
+        <Value>UpdatedContent = 6</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>AssertionConditionType</Name>
+        <Access>Public</Access>
+        <Location left="12" top="12" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>IS_TRUE = 0</Value>
+        <Value>IS_FALSE = 1</Value>
+        <Value>IS_NULL = 2</Value>
+        <Value>IS_NOT_NULL = 3</Value>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Nesting" first="99" second="103">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Nesting" first="99" second="104">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="13">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="12" second="13">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="15" second="17">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="18" second="20">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="91" second="94">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="92" second="94">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="96" second="101">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="97" second="101">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="15" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="15" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="16" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="17" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="18" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="18" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="19" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="20" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="91" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="91" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="92" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="92" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="94" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="96" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="96" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="97" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="97" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="101" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="12" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_imgurAsset</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
