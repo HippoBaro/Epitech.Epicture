@@ -83,6 +83,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>d123dea6-063a-46ad-8bb8-81e725823fe5</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UITests|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\UITests\</OutputPath>

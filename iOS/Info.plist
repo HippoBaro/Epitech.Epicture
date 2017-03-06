@@ -42,5 +42,7 @@
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Let me see your dirty pictures.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Let me take dirty pictures of you.</string>
 </dict>
 </plist>
