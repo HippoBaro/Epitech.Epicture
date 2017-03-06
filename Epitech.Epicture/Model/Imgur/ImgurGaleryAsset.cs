@@ -73,21 +73,12 @@ namespace Epitech.Epicture.Model.Imgur
         {
             get
             {
-                ImageSource Create()
-                {
-                    var link = new Uri($"http://i.imgur.com/{Id}l.{Link.Substring(Link.Length - 3, 3)}");
-                    return new UriImageSource
-                    {
-                    Uri = link,
-                    CachingEnabled = false,
-                    CacheValidity = TimeSpan.MaxValue
-                };}
-
                 if (_contentImageThumbmail == null)
-                    _contentImageThumbmail = new WeakReference<ImageSource>(Create());
-                if (_contentImageThumbmail.TryGetTarget(out ImageSource res))
+                    _contentImageThumbmail = new WeakReference<ImageSource>(CreateMedium());
+				ImageSource res;
+                if (_contentImageThumbmail.TryGetTarget(out res))
                     return res;
-                _contentImageThumbmail.SetTarget(Create());
+                _contentImageThumbmail.SetTarget(CreateMedium());
                 return _contentImageThumbmail.TryGetTarget(out res) ? res : null;
             }
         }
@@ -96,20 +87,32 @@ namespace Epitech.Epicture.Model.Imgur
         {
             get
             {
-                ImageSource Create() => new UriImageSource
-                {
-                    Uri = new Uri(Link),
-                    CachingEnabled = false,
-                    CacheValidity = TimeSpan.MaxValue,
-                };
-
                 if (_contentImageFull == null)
-                    _contentImageFull = new WeakReference<ImageSource>(Create());
-                if (_contentImageFull.TryGetTarget(out ImageSource res))
+                    _contentImageFull = new WeakReference<ImageSource>(CreateFull());
+				ImageSource res;
+                if (_contentImageFull.TryGetTarget(out res))
                     return res;
-                _contentImageFull.SetTarget(Create());
+                _contentImageFull.SetTarget(CreateFull());
                 return _contentImageFull.TryGetTarget(out res) ? res : null;
             }
         }
+
+		ImageSource CreateMedium()
+		{
+			var link = new Uri($"http://i.imgur.com/{Id}l.{Link.Substring(Link.Length - 3, 3)}");
+			return new UriImageSource
+			{
+				Uri = link,
+				CachingEnabled = false,
+				CacheValidity = TimeSpan.MaxValue
+			};
+		}
+
+		ImageSource CreateFull() => new UriImageSource
+		{
+			Uri = new Uri(Link),
+			CachingEnabled = false,
+			CacheValidity = TimeSpan.MaxValue,
+		};
     }
 }
