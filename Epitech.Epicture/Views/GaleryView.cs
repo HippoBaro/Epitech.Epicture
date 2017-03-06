@@ -89,8 +89,8 @@ namespace Epitech.Epicture.Views
                     image.Source = null;
             }
 
-            if (args.ScrollY > _scrollView.ContentSize.Height * 0.70)
-                ViewModel.FetchCommand.Execute(++ViewModel.CurrentPage);
+            if (args.ScrollY > (_scrollView.ContentSize.Height - _scrollView.Height) * 0.70)
+                ViewModel.FetchCommand.Execute(true);
         }
 
         private RelativeLayout GetImage(IImageAsset asset)

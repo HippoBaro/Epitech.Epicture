@@ -73,7 +73,7 @@ namespace Epitech.Epicture.Model.Flickr
 			};
 		}
 
-		ImageSource CreateFull() => new UriImageSource
+		private ImageSource CreateFull() => new UriImageSource
 		{
 			Uri = new Uri(Sources.Last().Source),
 			CachingEnabled = false,

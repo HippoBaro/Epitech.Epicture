@@ -40,10 +40,9 @@ namespace Epitech.Epicture.ViewModels
             }
         }
 
-        public ICommand FetchCommand => new Command(() =>
+        public ICommand FetchCommand => new Command<bool>((b) =>
         {
-            CurrentPage = 0;
-            Device.BeginInvokeOnMainThread(async () => await Fetch());
+            Device.BeginInvokeOnMainThread(async () => await Fetch(b));
         });
 
         public int CurrentPage
@@ -109,7 +108,7 @@ namespace Epitech.Epicture.ViewModels
         public override async void OnDisplay()
         {
             base.OnDisplay();
-            await Fetch();
+            await Fetch(false);
         }
 
         private async Task UploadFile(MediaFile file)
@@ -125,10 +124,14 @@ namespace Epitech.Epicture.ViewModels
             }
         }
 
-        private async Task Fetch()
+        private async Task Fetch(bool nextPage)
         {
             if (IsFetching)
                 return;
+            if (Assets.Count > 500)
+                return;
+            if (nextPage)
+                CurrentPage++;
             IsFetching = true;
             if (CurrentPage == 0)
                 Assets.Clear();

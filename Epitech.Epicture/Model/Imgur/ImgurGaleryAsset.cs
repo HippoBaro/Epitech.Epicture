@@ -58,16 +58,7 @@ namespace Epitech.Epicture.Model.Imgur
 
         public double Ratio => Width / (double)Height;
 
-        public bool ShouldDisplay
-        {
-            get
-            {
-                if (IsAlbum)
-                    return false;
-                return true;
-            }
-        }
-
+        public bool ShouldDisplay => !IsAlbum;
 
         public ImageSource ContentImageMedium
         {

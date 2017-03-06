@@ -1,5 +1,7 @@
 ﻿using Epitech.Epicture.Services.Flickr;
+using Epitech.Epicture.Services.Flickr.Core;
 using Epitech.Epicture.Services.Imgur;
+using Epitech.Epicture.Services.Imgur.Core;
 using Epitech.Epicture.Views;
 using Splat;
 using Xamarin.Forms;
@@ -18,8 +20,8 @@ namespace Epitech.Epicture
                 Title = "Epitech Epicture",
 		        Children =
 		        {
-		            new NavigationPage(new GaleryView<ImgurClientService>()) { Title = "Imgur" },
-                    new NavigationPage(new GaleryView<FlickrClientService>()) { Title = "Flickr" }
+		            new NavigationPage(new GaleryView<ImgurClientService>()) { Title = ImgurBaseClient.ServiceName },
+                    new NavigationPage(new GaleryView<FlickrClientService>()) { Title = FlickrBaseClient.ServiceName }
                 }
 		    };
 		}

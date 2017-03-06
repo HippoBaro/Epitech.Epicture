@@ -11,7 +11,7 @@ namespace Epitech.Epicture.Services.Imgur.Core
     internal class ImgurBaseClient : IBaseClient
     {
         private HttpClient _client;
-        public const string ClientId = "033ed1570301ce1";
+        internal const string ClientId = "033ed1570301ce1";
 
         protected HttpClient Client => _client ?? (_client = new HttpClient
         {
@@ -19,6 +19,8 @@ namespace Epitech.Epicture.Services.Imgur.Core
         });
 
         public IOAuthIdentityProvider IdentityProvider { get; } = new ImgurOauthIdentityProvider(true);
+
+        public static string ServiceName => "Imgur";
 
         protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string ressource, Func<T, TReturn> selector)
         {

@@ -14,7 +14,7 @@ namespace Epitech.Epicture.Services.Flickr.Core
     internal class FlickrBaseClient : IBaseClient
     {
         private HttpClient _client;
-        public const string ClientId = "370021b537ba69d7cae0c26ba4565ecc";
+        internal const string ClientId = "370021b537ba69d7cae0c26ba4565ecc";
 
         protected HttpClient Client => _client ?? (_client = new HttpClient
         {
@@ -22,6 +22,8 @@ namespace Epitech.Epicture.Services.Flickr.Core
         });
 
         public IOAuthIdentityProvider IdentityProvider { get; } = new FlickrOauthIdentityProvider(false);
+
+        public static string ServiceName => "Flickr";
 
         protected async Task<TReturn> Execute<T, TReturn>(HttpMethod method, string logicMethod, Dictionary<string, string> param, string mappingName, Func<FlickrApiResponse<T>, TReturn> selector)
         {
