@@ -85,11 +85,7 @@ namespace Epitech.Epicture.Views
                 var stackChild = (RelativeLayout) view1;
                 var image = stackChild.Children.First(view => view is Image) as Image;
                 if (image == null) continue;
-                
-                if (stackChild.Bounds.IntersectsWith(new Rectangle(args.ScrollX, args.ScrollY, _scrollView.Bounds.Width, _scrollView.Bounds.Height).Inflate(0, Bounds.Height * 0.50)))
-                    image.Source = ((IImageAsset)stackChild.BindingContext).ContentImageMedium;
-                else
-                    image.Source = null;
+                image.Source = stackChild.Bounds.IntersectsWith(new Rectangle(args.ScrollX, args.ScrollY, _scrollView.Bounds.Width, _scrollView.Bounds.Height).Inflate(0, Bounds.Height * 0.50)) ? ((IImageAsset)stackChild.BindingContext).ContentImageMedium : null;
             }
 
             if (args.ScrollY > (_scrollView.ContentSize.Height - _scrollView.Height) * 0.70)
