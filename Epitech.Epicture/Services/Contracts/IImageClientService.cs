@@ -13,6 +13,7 @@ namespace Epitech.Epicture.Services.Contracts
         Task<List<IAssetComment>> GetGalleryAssetComments(IImageAsset asset);
         Task<string> FavoriteImage(IImageAsset asset);
         Task<IImageAsset> GetImage(string assetId);
-        Task UploadImage(Stream image);
+        Task<IImageAsset> UploadImage(Stream image);
+        Task CommentOnAsset(IImageAsset asset, string comment);
     }
 }

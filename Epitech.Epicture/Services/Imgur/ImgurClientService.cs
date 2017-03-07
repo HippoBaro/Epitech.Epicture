@@ -16,13 +16,28 @@ namespace Epitech.Epicture.Services.Imgur
 {
     public class ImgurClientService : ImgurBaseClient, IImageClientService
     {
-        public Task<List<IImageAsset>> GetMainGalery(int page) => Execute<ImgurApiResponse<List<ImgurGaleryAsset>>, List<IImageAsset>>(HttpMethod.Get, $"3/gallery/hot/viral/{page}", arg => new List<IImageAsset>(arg.Data));
-        public Task<List<IImageAsset>> SearchMainGalery(string query, int page) => Execute<ImgurApiResponse<List<ImgurGaleryAsset>>, List<IImageAsset>>(HttpMethod.Get, $"3/gallery/search/viral/{page}?q={Uri.EscapeDataString(query)}", arg => new List<IImageAsset>(arg.Data));
-        public Task<List<IAssetComment>> GetGalleryAssetComments(IImageAsset asset) => Execute<ImgurApiResponse<List<ImgurComment>>, List<IAssetComment>>(HttpMethod.Get, $"3/gallery/image/{asset.Id}/comments", arg => new List<IAssetComment>(arg.Data));
-        public Task<string> FavoriteImage(IImageAsset asset) => Execute<ImgurApiResponse<string>, string>(HttpMethod.Post, $"3/image/{asset.Id}/favorite", arg => arg.Data);
-        public Task<IImageAsset> GetImage(string assetId) => Execute<ImgurApiResponse<ImgurGaleryAsset>, IImageAsset>(HttpMethod.Get, $"3/image/{assetId}", arg => arg.Data);
+        public Task<List<IImageAsset>> GetMainGalery(int page)
+            =>
+                Execute<ImgurApiResponse<List<ImgurGaleryAsset>>, List<IImageAsset>>(HttpMethod.Get, $"3/gallery/hot/viral/{page}",
+                    arg => new List<IImageAsset>(arg.Data));
 
-        public async Task UploadImage(Stream image)
+        public Task<List<IImageAsset>> SearchMainGalery(string query, int page)
+            =>
+                Execute<ImgurApiResponse<List<ImgurGaleryAsset>>, List<IImageAsset>>(HttpMethod.Get,
+                    $"3/gallery/search/viral/{page}?q={Uri.EscapeDataString(query)}", arg => new List<IImageAsset>(arg.Data));
+
+        public Task<List<IAssetComment>> GetGalleryAssetComments(IImageAsset asset)
+            =>
+                Execute<ImgurApiResponse<List<ImgurComment>>, List<IAssetComment>>(HttpMethod.Get, $"3/gallery/image/{asset.Id}/comments",
+                    arg => new List<IAssetComment>(arg.Data));
+
+        public Task<string> FavoriteImage(IImageAsset asset)
+            => Execute<ImgurApiResponse<string>, string>(HttpMethod.Post, $"3/image/{asset.Id}/favorite", arg => arg.Data);
+
+        public Task<IImageAsset> GetImage(string assetId)
+            => Execute<ImgurApiResponse<ImgurGaleryAsset>, IImageAsset>(HttpMethod.Get, $"3/image/{assetId}", arg => arg.Data);
+
+        public async Task<IImageAsset> UploadImage(Stream image)
         {
             try
             {
@@ -33,16 +48,45 @@ namespace Epitech.Epicture.Services.Imgur
                 };
 
                 var response = await Client.SendAsync(request);
-                if (response.StatusCode == HttpStatusCode.Unauthorized) {
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
                     await IdentityProvider.ReAuthorize();
-                }
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception();
+
+                var res = await response.Content.ReadAsStringAsync();
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<ImgurApiResponse<ImgurGaleryAsset>>(res).Data;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw new Exception("Unable to upload this image");
+            }
+        }
+
+        public async Task CommentOnAsset(IImageAsset asset, string comment)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, $"3/comment")
+                {
+                    Headers = {Authorization = AuthenticationHeaderValue.Parse($"{IdentityProvider.GetAuthenticationHeader()}")},
+                    Content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>("image_id", asset.Id),
+                        new KeyValuePair<string, string>("comment", comment), 
+                    })
+                };
+
+                var response = await Client.SendAsync(request);
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    await IdentityProvider.ReAuthorize();
                 if (!response.IsSuccessStatusCode)
                     throw new Exception();
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                throw new Exception("Unable to upload this image");
+                throw new Exception("Unable to comment this image");
             }
         }
     }

@@ -22,11 +22,19 @@ namespace Epitech.Epicture.Views
 
             var img = new Image {HorizontalOptions = LayoutOptions.CenterAndExpand, VerticalOptions = LayoutOptions.Fill, Aspect = Aspect.AspectFit};
 
+            var textComment = new Editor
+            {
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                HeightRequest = 250
+            };
+
             var list = new ListView
             {
                 Header = new StackLayout
                 {
-                    Children = {
+                    Children =
+                    {
                         img,
                         new StackLayout
                         {
@@ -53,15 +61,30 @@ namespace Epitech.Epicture.Views
                         {TextCell.TextProperty, new Binding(nameof(IAssetComment.Author))},
                         {TextCell.DetailProperty, new Binding(nameof(IAssetComment.Comment))}
                     }
+                },
+                Footer = new StackLayout
+                {
+                    Children =
+                    {
+                        textComment,
+                        new Button
+                        {
+                            Text = "New comment",
+                            HorizontalOptions = LayoutOptions.Center,
+                            Command = ViewModel.NewComment
+                        }
+                    },
+                    HorizontalOptions = LayoutOptions.Fill
                 }
             };
 
             list.SetBinding(ListView.ItemsSourceProperty, new Binding(nameof(ViewModel.Comments)));
             star.SetBinding(Image.SourceProperty, new Binding(nameof(ViewModel.IsStared), BindingMode.OneWay, new StartedToAssetValueConverter()));
+            textComment.SetBinding(Editor.TextProperty, new Binding(nameof(ViewModel.Comment), BindingMode.TwoWay));
 
             ViewModel.PropertyChanged += (sender, args) =>
             {
-                img.Source = ViewModel.ImgurAsset.ContentImageFull;
+                img.Source = ViewModel.ImageAsset.ContentImageFull;
             };
 
             Content = list;

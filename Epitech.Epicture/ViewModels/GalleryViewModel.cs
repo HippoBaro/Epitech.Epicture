@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Epitech.Epicture.Model.Contract;
 using Epitech.Epicture.Services.Contracts;
 using Epitech.Epicture.ViewModels.Core;
+using Epitech.Epicture.Views;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Xamarin.Forms;
@@ -113,14 +114,19 @@ namespace Epitech.Epicture.ViewModels
 
         private async Task UploadFile(MediaFile file)
         {
+            IsFetching = true;
             try
             {
-                await ImageClientService.UploadImage(file.GetStream());
-                await Page.DisplayAlert("Success", "It's Aliiivvvvee", "Ok");
+                var newAsset = await ImageClientService.UploadImage(file.GetStream());
+                await Page.Navigation.PushAsync(new ImageDetailView<TService>(newAsset.Id));
             }
             catch (Exception e)
             {
                 await Page.DisplayAlert("Error", e.Message, "Ok");
+            }
+            finally
+            {
+                IsFetching = false;
             }
         }
 

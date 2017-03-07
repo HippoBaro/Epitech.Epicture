@@ -36,8 +36,6 @@ namespace Epitech.Epicture.Services.Flickr
             => Execute<JObject, List<IAssetComment>>(HttpMethod.Get, "flickr.photos.comments.getList",
                 new Dictionary<string, string> {{"photo_id", asset.Id}}, "comment", arg =>
                 {
-                    if (arg.Data.Last.Count() == 1)
-                        return null;
                     var ret = arg.Data.Last.First.ToObject<List<FlickrComment>>();
                     return new List<IAssetComment>(ret);
                 });
@@ -60,7 +58,7 @@ namespace Epitech.Epicture.Services.Flickr
                     return ret;
                 });
 
-        public Task UploadImage(Stream image)
+        public Task<IImageAsset> UploadImage(Stream image)
         {
             throw new Exception("Flick API is monumentally bad. So not uploading.");
         }
@@ -72,5 +70,8 @@ namespace Epitech.Epicture.Services.Flickr
                     var ret = arg.Data.Last.First.ToObject<List<FlickrAssetSource>>();
                     return ret;
                 });
+
+        public Task CommentOnAsset(IImageAsset asset, string comment) => Execute<JObject, bool>(HttpMethod.Post, "flickr.photos.comments.addComment",
+                new Dictionary<string, string> { { "photo_id", asset.Id }, { "comment_text", comment } }, "", (arg) => true);
     }
 }

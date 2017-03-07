@@ -11,6 +11,7 @@ namespace Epitech.Epicture.Views.Core
 
         public ContentPageBase()
         {
+            SetBinding(IsBusyProperty, new Binding(nameof(ViewModel.IsFetching)));
             BindingContext = ViewModel;
             ViewModel.OnDisplay();
         }

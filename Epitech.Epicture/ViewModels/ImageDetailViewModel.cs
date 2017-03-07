@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,19 +12,20 @@ namespace Epitech.Epicture.ViewModels
 {
     public class ImageDetailViewModel<TService> : ViewModelBase where TService : IImageClientService, new()
     {
-        private IImageAsset _imgurAsset;
+        private IImageAsset _imageAsset;
         private bool _isStared;
         private string _assetId;
+        private string _comment;
 
-        public IImageAsset ImgurAsset
+        public IImageAsset ImageAsset
         {
-            get { return _imgurAsset; }
+            get { return _imageAsset; }
             set
             {
-                _imgurAsset = value;
-                if (_imgurAsset == null)
+                _imageAsset = value;
+                if (_imageAsset == null)
                     return;
-                IsStared = _imgurAsset.Favorite;
+                IsStared = _imageAsset.Favorite;
                 FetchComments.Execute(null);
             }
         }
@@ -36,7 +38,17 @@ namespace Epitech.Epicture.ViewModels
                 _assetId = value;
                 if (string.IsNullOrEmpty(_assetId))
                     return;
-                ImageClientService.GetImage(_assetId).ContinueWith(task => Device.BeginInvokeOnMainThread(() => ImgurAsset = task.Result));
+                ImageClientService.GetImage(_assetId).ContinueWith(task => Device.BeginInvokeOnMainThread(() => ImageAsset = task.Result));
+                OnPropertyChanged();
+            }
+        }
+
+        public string Comment
+        {
+            get { return _comment; }
+            set
+            {
+                _comment = value;
                 OnPropertyChanged();
             }
         }
@@ -62,16 +74,40 @@ namespace Epitech.Epicture.ViewModels
             if (!await EnsureUserIsAuthenticated(ImageClientService.IdentityProvider))
                 return;
             IsStared = !IsStared;
-            IsStared = await ImageClientService.FavoriteImage(ImgurAsset) != "unfavorited";
+            IsStared = await ImageClientService.FavoriteImage(ImageAsset) != "unfavorited";
+        });
+
+        public ICommand NewComment => new Command(async () =>
+        {
+            if (!await EnsureUserIsAuthenticated(ImageClientService.IdentityProvider))
+                return;
+            
+            try
+            {
+                await ImageClientService.CommentOnAsset(ImageAsset, Comment);
+                AssetId = ImageAsset.Id;
+                Comment = null;
+            }
+            catch (Exception e)
+            {
+                await Page.DisplayAlert("Error", "Unable to comment", "Dismiss");
+            }
         });
 
         private async Task GetComments()
         {
-            var comments = await ImageClientService.GetGalleryAssetComments(ImgurAsset);
-            Comments.Clear();
-            if (comments == null || !comments.Any()) return;
-            foreach (var comment in comments)
-                Comments.Add(comment);
+            try
+            {
+                var comments = await ImageClientService.GetGalleryAssetComments(ImageAsset);
+                Comments.Clear();
+                if (comments == null || !comments.Any()) return;
+                foreach (var comment in comments)
+                    Comments.Add(comment);
+            }
+            catch (Exception e)
+            {
+            }
+
         }
     }
 }
