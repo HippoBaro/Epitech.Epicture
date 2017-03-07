@@ -12,6 +12,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Epitech.Epicture.Services.Flickr
 {
+    /// <summary>
+    /// The Flickr client service.
+    /// </summary>
     public class FlickrClientService : FlickrBaseClient, IImageClientService
     {
         public Task<List<IImageAsset>> GetMainGalery(int page)

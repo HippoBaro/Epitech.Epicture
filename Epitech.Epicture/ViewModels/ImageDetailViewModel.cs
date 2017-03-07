@@ -10,6 +10,10 @@ using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels
 {
+    /// <summary>
+    /// A ViewModel that provide an Image view that provide a favorite feature and comment's view.
+    /// </summary>
+    /// <typeparam name="TService">The underlying service this ViewModel should be getting data from</typeparam>
     public class ImageDetailViewModel<TService> : ViewModelBase where TService : IImageClientService, new()
     {
         private IImageAsset _imageAsset;

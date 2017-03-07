@@ -12,6 +12,10 @@ using Xamarin.Forms;
 
 namespace Epitech.Epicture.ViewModels
 {
+    /// <summary>
+    /// A View Model that provide a list a gallery to view multiple image. It provide automatic paging and search feature.
+    /// </summary>
+    /// <typeparam name="TService">The underlying service this ViewModel should be getting data from</typeparam>
     public class GalleryViewModel<TService> : ViewModelBase where TService : IImageClientService, new()
     {
         private ObservableCollection<IImageAsset> _assets = new ObservableCollection<IImageAsset>();

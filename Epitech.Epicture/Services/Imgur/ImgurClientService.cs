@@ -14,6 +14,9 @@ using Epitech.Epicture.Services.Imgur.Core;
 
 namespace Epitech.Epicture.Services.Imgur
 {
+    /// <summary>
+    /// The Imgur client service.
+    /// </summary>
     public class ImgurClientService : ImgurBaseClient, IImageClientService
     {
         public Task<List<IImageAsset>> GetMainGalery(int page)
